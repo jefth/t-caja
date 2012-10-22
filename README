@@ -8,22 +8,13 @@
 
 1. 修改了build.xml中， runserver target的启动参数，增加了端口和分配的内存大小
 2. 创建了build.bat文件，设置了设置了ant的启动内存和xercesImpl.jar的path
-	```shell
-		set CLASSPATH=.\third_party\java\xerces\xercesImpl.jar
-	```
+	<pre>
+		<code>
+			set CLASSPATH=.\third_party\java\xerces\xercesImpl.jar
+		</code>
+	<pre>
 3. 由于caja所有文件按linux来的，软连接在window下不可用：
 所以在window下，找到相应目录，将jetty.jar和jetty-util-6.1.15.jar删除，分别将带版本号的jar重命名为这个两个文件
-	```cmd
-[admin@v017072 ~/caja/google-caja-read-only]$ ll third_party/java/jetty/lib/
-总计 7
-drwxrwxr-x 3 admin admin   4096 05-17 22:24 .
-drwxrwxr-x 5 admin admin   4096 05-17 22:24 ..
--rw-rw-r-- 1 admin admin 521380 05-17 22:24 jetty-6.1.15.jar
-lrwxrwxrwx 1 admin admin     16 05-17 22:24 jetty.jar -> jetty-6.1.15.jar
--rw-rw-r-- 1 admin admin 171775 05-17 22:24 jetty-util-6.1.15.jar
-lrwxrwxrwx 1 admin admin     21 05-17 22:24 jetty-util.jar -> jetty-util-6.1.15.jar
-drwxrwxr-x 6 admin admin   4096 05-18 17:29 .svn
-	```
 
 ###说明
 工程clone 下来，直接运行build.bat jar, 启动服务运行build.bat runserver
