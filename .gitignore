@@ -1,4 +1,5 @@
 ant-jars/
+*.class
 ant-instr/
 ant-lib/
 ant-www/
