@@ -11,6 +11,12 @@
         "optionalEnd": false,
         "deprecated":  false,
         "description": "present in HTML5, but not in HTML4 though widely used"
+      },
+      { "key":         "EMBED",
+          "empty":       false,
+          "optionalEnd": false,
+          "deprecated":  false,
+          "description": "html5 ±Í«©, «∂»Îflash"
       }
   ]
 }

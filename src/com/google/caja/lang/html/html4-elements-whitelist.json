@@ -1,7 +1,8 @@
 {
   "description": [
       "See http://code.google.com/p/google-caja/wiki/CajaWhitelists",
-      "The denied is not necessary but lets us document why they're denied."
+      "The denied is not necessary but lets us document why they're denied.",
+      "这里根据店铺前端规范, 进行改造"
       ],
 
   "allowed": [
@@ -19,13 +20,11 @@
       "CAPTION",
       "CENTER",
       "CITE",
-      "CODE",
       "COL",
       "COLGROUP",
       "DD",
       "DEL",
       "DFN",
-      "DIR",
       "DIV",
       "DL",
       "DT",
@@ -41,7 +40,6 @@
       "H6",
       "HR",
       "I",
-      "IFRAME",
       "IMG",
       "INPUT",
       "INS",
@@ -50,7 +48,6 @@
       "LEGEND",
       "LI",
       "MAP",
-      "MENU",
       "OL",
       "OPTGROUP",
       "OPTION",
@@ -58,7 +55,6 @@
       "PRE",
       "Q",
       "S",
-      "SAMP",
       "SELECT",
       "SMALL",
       "SPAN",
@@ -117,6 +113,17 @@
       { "key": "STYLE",
         "reason": "allows global definition of styles." },
       { "key": "TITLE",
-        "reason": "a global level tag" }
+        "reason": "a global level tag" },
+      { "key": "CODE",
+          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+      { "key": "DIR",
+          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+      { "key": "IFRAME",
+          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+      { "key": "MENU",
+          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+      { "key": "SAMP",
+          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" }
+
       ]
 }

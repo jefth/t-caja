@@ -1,6 +1,11 @@
 {
   "allowed": [
-    "CANVAS",
-    "NOBR"
-  ]
+    "EMBED"
+  ],
+   "denied": [
+        { "key": "NOBR",
+            "reason": "店铺规范不支持" },
+        { "key": "CANVAS",
+            "reason": "店铺规范不支持, 目前不需要也" }
+    ]
 }
