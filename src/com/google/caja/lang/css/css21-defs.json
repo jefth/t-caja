@@ -656,7 +656,7 @@
       "dom2property": "playDuring" },
 
     { "key": "position",
-      "signature": "static | relative | absolute | fixed | inherit",
+      "signature": "static | relative | absolute | inherit",
       "default": "static",
       "appliesTo": "*",
       "inherited": false,
@@ -860,7 +860,7 @@
       "dom2property": "wordSpacing" },
 
     { "key": "z-index",
-      "signature": "auto | <integer> | inherit",
+      "signature": "auto | <integer:0,> | inherit",
       "default": "auto",
       "appliesTo": { "include": ["positioned"] },
       "inherited": false,

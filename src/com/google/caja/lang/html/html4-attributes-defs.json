@@ -351,7 +351,7 @@
       { "key": "IFRAME::MARGINHEIGHT", "description": "margin height in pixels",
         "pattern": "[0-9]+", "optional": true },
       { "key": "FRAME::MARGINWIDTH", "description": "margin widths in pixels",
-        "pattern": "[0-9]+", "optional": tr,ue },
+        "pattern": "[0-9]+", "optional": true },
       { "key": "IFRAME::MARGINWIDTH", "description": "margin widths in pixels",
         "pattern": "[0-9]+", "optional": true },
       { "key": "INPUT::MAXLENGTH", "description": "max chars for text fields",
