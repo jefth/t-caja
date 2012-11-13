@@ -188,7 +188,8 @@ var caja = (function () {
      *         tracking down problems.
      *
      * @param config an object literal containing configuration paramters.
-     * @param callback function to be called back with a reference to
+     * @param callback function to be ca
+     * led back with a reference to
      *     the newly created frame group.
      */
     function configure(config, callback) {
@@ -214,7 +215,7 @@ var caja = (function () {
             var iframe = createIframe(filename);
 
             var url = joinUrl(cajaServer,
-                debug ? filename + '.js' : filename + '.opt.js');
+                debug ? filename + '.js' : filename + '-min.js');
 
             // in order to avoid permission denied error if set domain in ie(ie6)
             var srcScript = 'document.open();' +

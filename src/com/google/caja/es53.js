@@ -301,6 +301,9 @@ var ___, cajaVM, safeJSON;
                 if (obj === obj.baseProto___) {
                     return void 0;
                 }
+                if(result.constructor.FERAL_FRAME_OBJECT___=== result.constructor){
+                    return BASE_OBJECT_CONSTRUCTOR;
+                }
                 throw new TypeError('Discovery of direct constructors for foreign '
                     + 'begotten objects not implemented on this platform');
             }

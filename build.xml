@@ -713,6 +713,7 @@
                     language="javascript" renderer="minify"/>
             <output file="${lib}/com/google/caja/plugin/es53-taming-frame.js"
                     language="javascript" renderer="concat"/>
+            <input file="${src}/com/google/caja/enhance-error.js"/>
             <input file="${third_party}/js/json_sans_eval/json_sans_eval.js"/>
             <input file="${src}/com/google/caja/es53.js"/>
             <input file="${src}/com/google/caja/plugin/unicode.js"/>
@@ -735,6 +736,7 @@
                     language="javascript" renderer="minify"/>
             <output file="${lib}/com/google/caja/plugin/es53-guest-frame.js"
                     language="javascript" renderer="concat"/>
+            <input file="${src}/com/google/caja/enhance-error.js"/>
             <input file="${third_party}/js/json_sans_eval/json_sans_eval.js"/>
             <input file="${src}/com/google/caja/es53.js"/>
             <input file="${src}/com/google/caja/plugin/uri.js"/>
