@@ -1160,7 +1160,7 @@
     <dev_appserver war="${war}">
       <options>
         <arg value="--address=0.0.0.0"/>
-        <arg value="--port=8080"/>
+        <arg value="--port=9988"/>
       	<arg value="--jvm_flag=-Xdebug"/>
       	<arg value="--jvm_flag=-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"/>
         <arg value="--jvm_flag=-Xmx1024m"/>
