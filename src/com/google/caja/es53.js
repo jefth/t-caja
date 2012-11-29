@@ -4204,7 +4204,7 @@ var ___, cajaVM, safeJSON;
         if (i < 0) {
             i += len;
         }
-        i = Math.min___(i, len - 1);
+        i = Math.min(i, len - 1); //source code here Math.min___ , but this function is not defined
         for (; i >= 0; i--) {
             if (!this.hasOwnProperty(i)) {
                 continue;
@@ -4692,6 +4692,7 @@ var ___, cajaVM, safeJSON;
             'getUTCDay',
             'getUTCDate',
             'getUTCMonth',
+            'getUTCMilliseconds',
             'getUTCFullYear',
             'getMilliseconds',
             'getTimezoneOffset',
@@ -4704,8 +4705,15 @@ var ___, cajaVM, safeJSON;
             'setMilliseconds',
             'setTime',
             'toISOString',
-            'toJSON'
-        ];
+            'toJSON',
+            'setUTCFullYear',
+            'setUTCMonth',
+            'setUTCDate',
+            'setUTCHours',
+            'setUTCMinutes',
+            'setUTCSeconds',
+            'setUTCMilliseconds'
+        ];//here set UTC* method not added
         for (var i = 0; i < methods.length; ++i) {
             virtualize(Date.prototype, methods[i]);
         }

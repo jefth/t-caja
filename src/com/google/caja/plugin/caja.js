@@ -224,20 +224,34 @@ var caja = (function () {
             iframe.src = navigator.userAgent.match(/MSIE/) ?
                 'javascript:void(function(){' + encodeURIComponent(srcScript) + '}())' :
                 '';
-
-            // The particular interleaving of async events shown below has been found
-            // necessary to get the right behavior on Firefox 3.6. Otherwise, the
-            // iframe silently fails to invoke the cajaIframeDone___ callback.
-            setTimeout(function() {
-                // Arrange to be notified when the frame is ready. For Firefox, it is
-                // important that we do this before we do the async installScript below.
-                iframe.contentWindow.cajaIframeDone___ = function () {
-                    callback(iframe);
-                };
-                setTimeout(function() {
-                    installScript(iframe, url);
+            //firefox: if you go ahead and back through navigation bars, "function installScript" can't run success steady;
+            //maybe if iframe not loaded, installscript can't appendChild bodydom
+            //caja use setTimeout can insure iframe loaded. at least firefox 16
+            //edit by shiba <shiba@taobao.com>
+            if (navigator.userAgent.match(/Firefox/)) {
+                iframe.onload = function () {
+                    iframe.contentWindow.cajaIframeDone___ = function () {
+                        callback(iframe);
+                    };
+                    setTimeout(function () {
+                        installScript(iframe, url);
+                    }, 0);
+                }
+            } else {
+                // The particular interleaving of async events shown below has been found
+                // necessary to get the right behavior on Firefox 3.6. Otherwise, the
+                // iframe silently fails to invoke the cajaIframeDone___ callback.
+                setTimeout(function () {
+                    // Arrange to be notified when the frame is ready. For Firefox, it is
+                    // important that we do this before we do the async installScript below.
+                    iframe.contentWindow.cajaIframeDone___ = function () {
+                        callback(iframe);
+                    };
+                    setTimeout(function () {
+                        installScript(iframe, url);
+                    }, 0);
                 }, 0);
-            }, 0);
+            }
 
 
         }
@@ -446,7 +460,7 @@ var caja = (function () {
                              * @param callback a function that is called providing the
                              *     completion value of the guest code.
                              */
-                            run: function(extraImports, opt_callback) {
+                            run:function (extraImports, opt_callback) {
                                 if (!extraImports) {
                                     extraImports = {};
                                 }
@@ -471,7 +485,7 @@ var caja = (function () {
                         }
                         // TODO: How to tell the module to use baseUrl?
                         // Or does that have to happen at cajoling time?
-                        return function(imports, opt_callback) {
+                        return function (imports, opt_callback) {
                             if (opt_staticHtml) {
                                 innerContainer.innerHTML = opt_staticHtml;
                             }
@@ -513,13 +527,13 @@ var caja = (function () {
                                 function (moduleJson) {
                                     guestWindow.Q.when(
                                         loader.loadCajoledJson___(url, moduleJson),
-                                        function(moduleFunc) {
+                                        function (moduleFunc) {
                                             var result = moduleFunc(imports);
                                             if (opt_callback) {
                                                 opt_callback(result);
                                             }
                                         },
-                                        function(ex) {
+                                        function (ex) {
                                             throw new Error(ex);
                                         });
                                 },
@@ -546,33 +560,33 @@ var caja = (function () {
                     }
 
                     callback({
-                        url: url,
-                        urlCajoled: urlCajoled,
-                        content: content,
-                        contentCajoled: contentCajoled,
-                        div: div,
-                        innerContainer: innerContainer,
-                        outerContainer: outerContainer,
-                        idSuffix: idSuffix,
-                        iframe: guestFrame,
-                        imports: imports,
-                        loader: loader
+                        url:url,
+                        urlCajoled:urlCajoled,
+                        content:content,
+                        contentCajoled:contentCajoled,
+                        div:div,
+                        innerContainer:innerContainer,
+                        outerContainer:outerContainer,
+                        idSuffix:idSuffix,
+                        iframe:guestFrame,
+                        imports:imports,
+                        loader:loader
                     });
                 });
             }
 
             // A frame group
             callback({
-                tame: tame,
-                markReadOnlyRecord: markReadOnlyRecord,
-                markFunction: markFunction,
-                markCtor: markCtor,
-                markXo4a: markXo4a,
-                grantMethod: grantMethod,
-                grantRead: grantRead,
-                grantReadWrite: grantReadWrite,
-                iframe: tamingFrame,
-                makeES5Frame: makeES5Frame
+                tame:tame,
+                markReadOnlyRecord:markReadOnlyRecord,
+                markFunction:markFunction,
+                markCtor:markCtor,
+                markXo4a:markXo4a,
+                grantMethod:grantMethod,
+                grantRead:grantRead,
+                grantReadWrite:grantReadWrite,
+                iframe:tamingFrame,
+                makeES5Frame:makeES5Frame
             });
         });
     }
@@ -613,7 +627,7 @@ var caja = (function () {
 
     // The global singleton Caja object
     return {
-        configure: configure,
-        initFeralFrame: initFeralFrame
+        configure:configure,
+        initFeralFrame:initFeralFrame
     };
 })();

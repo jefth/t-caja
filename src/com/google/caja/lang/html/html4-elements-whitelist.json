@@ -2,7 +2,7 @@
   "description": [
       "See http://code.google.com/p/google-caja/wiki/CajaWhitelists",
       "The denied is not necessary but lets us document why they're denied.",
-      "这里根据店铺前端规范, 进行改造"
+      "tb shop not allowed"
       ],
 
   "allowed": [
@@ -115,15 +115,15 @@
       { "key": "TITLE",
         "reason": "a global level tag" },
       { "key": "CODE",
-          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+          "reason": "tb shop not allowed" },
       { "key": "DIR",
-          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+          "reason": "tb shop not allowed" },
       { "key": "IFRAME",
-          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+          "reason": "tb shop not allowed" },
       { "key": "MENU",
-          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" },
+          "reason": "tb shop not allowed" },
       { "key": "SAMP",
-          "reason": "店铺老版本不支持, 需求不强烈,新版本也先不支持" }
+          "reason": "tb shop not allowed" }
 
       ]
 }

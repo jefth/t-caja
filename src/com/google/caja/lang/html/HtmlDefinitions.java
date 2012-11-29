@@ -14,22 +14,6 @@
 
 package com.google.caja.lang.html;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import com.google.caja.SomethingWidgyHappenedError;
 import com.google.caja.config.AllowedFileResolver;
 import com.google.caja.config.ConfigUtil;
@@ -42,27 +26,20 @@ import com.google.caja.lexer.ParseException;
 import com.google.caja.parser.ParseTreeNodeContainer;
 import com.google.caja.parser.html.AttribKey;
 import com.google.caja.parser.html.ElKey;
-import com.google.caja.parser.js.Block;
-import com.google.caja.parser.js.Expression;
-import com.google.caja.parser.js.ExpressionStmt;
-import com.google.caja.parser.js.Identifier;
-import com.google.caja.parser.js.IntegerLiteral;
-import com.google.caja.parser.js.Reference;
-import com.google.caja.parser.js.Statement;
-import com.google.caja.parser.js.StringLiteral;
+import com.google.caja.parser.js.*;
 import com.google.caja.parser.quasiliteral.QuasiBuilder;
 import com.google.caja.plugin.LoaderType;
 import com.google.caja.plugin.UriEffect;
-import com.google.caja.reporting.EchoingMessageQueue;
-import com.google.caja.reporting.MessageContext;
-import com.google.caja.reporting.MessageQueue;
-import com.google.caja.reporting.RenderContext;
-import com.google.caja.reporting.SimpleMessageQueue;
+import com.google.caja.reporting.*;
 import com.google.caja.tools.BuildCommand;
 import com.google.caja.util.Charsets;
 import com.google.caja.util.Function;
 import com.google.caja.util.Lists;
 import com.google.caja.util.Maps;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Generates a JavaScript tree with tables mapping HTML element and attribute
@@ -182,7 +159,9 @@ public final class HtmlDefinitions {
       for (Map.Entry<ElKey, EnumSet<EFlag>> e : eflags.entrySet()) {
         ElKey key = e.getKey();
         int value = 0;
-        for (EFlag f : e.getValue()) { value |= f.bitMask; }
+        for (EFlag f : e.getValue()) {
+			value |= f.bitMask;
+		}
         keys.add(StringLiteral.valueOf(unk, key.toString()));
         values.add(new IntegerLiteral(unk, value));
       }

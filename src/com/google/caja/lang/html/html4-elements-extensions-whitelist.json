@@ -4,8 +4,8 @@
   ],
    "denied": [
         { "key": "NOBR",
-            "reason": "店铺规范不支持" },
+            "reason": "tb shop not allowed" },
         { "key": "CANVAS",
-            "reason": "店铺规范不支持, 目前不需要也" }
+            "reason": "tb shop not allowed" }
     ]
 }
