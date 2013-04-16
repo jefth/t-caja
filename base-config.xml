@@ -1,0 +1,129 @@
+<project name="property.build" xmlns:artifact="urn:maven-artifact-ant">
+    <property file="build.properties"/>
+
+    <property name="build.sysclasspath" value="ignore"/>
+
+    <!-- Make the build reproducible/warning-free on newer versions of ant -->
+    <property name="build.sysclasspath" value="ignore"/>
+
+    <!--== inputs ==-->
+    <property name="src" location="src"/>
+    <property name="tests" location="tests"/>
+    <property name="test.filter" value="*Test"/>
+    <property name="third_party" location="third_party"/>
+    <property name="demos" location="src/com/google/caja/demos"/>
+    <!--== outputs ==-->
+    <property name="reports" location="ant-reports"/>
+    <!-- emma reports -->
+    <property name="instr" location="ant-instr"/>
+    <!-- instrumented src -->
+    <property name="lib" location="ant-lib"/>
+    <property name="docs" location="ant-docs"/>
+    <property name="ruledocs" location="${docs}/rules"/>
+    <property name="javadocs" location="${docs}/java"/>
+    <property name="jars" location="ant-jars"/>
+    <property name="www" location="ant-www"/>
+    <!-- demo files dir -->
+    <!-- servlet dir - needs to be called "war" for GWT eclipse plugin/shell
+        See http://code.google.com/webtoolkit/doc/1.6/ReleaseNotes_1_6.html
+      -->
+    <property name="war" location="ant-war"/>
+    <property name="maven" location="ant-maven"/>
+    <property name="maven-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/"/>
+    <property name="maven-repository-id" value="sonatype-nexus-staging"/>
+
+    <!-- maven -->
+    <property name="maven.ant.tasks.jar" value="third_party/ant/maven-ant-tasks-2.1.1.jar"/>
+
+    <!--== classpaths ==-->
+    <path id="classpath.gwt">
+        <pathelement path="${third_party}/java/gwt/gwt-user.jar"/>
+        <pathelement path="${third_party}/java/gwt/gwt-dev.jar"/>
+        <pathelement path="${third_party}/java/gwt/gwt-api-checker.jar"/>
+        <pathelement path="${third_party}/java/gwt/gwt-servlet.jar"/>
+        <pathelement path="${third_party}/java/appengine/lib/user/appengine-api-1.0-sdk-1.3.1.jar"/>
+        <pathelement path="${third_party}/java/appengine/lib/user/appengine-jsr107cache-1.3.1.jar"/>
+        <pathelement path="${third_party}/java/appengine/lib/user/jsr107cache-1.1.jar"/>
+        <pathelement path="${third_party}/java/appengine/lib/user/appengine-api-labs-1.3.1.jar"/>
+        <pathelement path="${third_party}/java/appengine/lib/user/orm/geronimo-jpa_3.0_spec-1.1.1.jar"/>
+        <pathelement path="${third_party}/java/appengine/lib/user/orm/jdo2-api-2.3-eb.jar"/>
+        <pathelement path="${third_party}/java/jsonml/jsonml.jar"/>
+    </path>
+    <path id="classpath.web">
+        <pathelement path="${third_party}/java/jsdk2.1/servlet.jar"/>
+        <pathelement path="${third_party}/java/jaf/activation.jar"/>
+        <pathelement path="${third_party}/java/javamail/mail.jar"/>
+        <pathelement path="${third_party}/java/jetty/lib/jetty.jar"/>
+        <pathelement path="${third_party}/java/jetty/lib/jetty-util.jar"/>
+    </path>
+    <path id="classpath.common">
+        <path refid="classpath.web"/>
+        <!-- TODO(jasvir): Check in guava in third_party and update link -->
+        <pathelement path="${third_party}/java/webdriver/libs/guava-r09.jar"/>
+        <pathelement path="${third_party}/java/json_simple/json_simple.jar"/>
+        <pathelement path="${third_party}/java/jsonml/jsonml.jar"/>
+        <pathelement path="${third_party}/java/jsr305/jsr305.jar"/>
+    </path>
+    <path id="classpath.compile">
+        <path refid="classpath.common"/>
+        <pathelement path="${third_party}/java/jakarta_commons/commons-codec-1.4.jar"/>
+        <pathelement path="${third_party}/java/jakarta_commons/commons-cli.jar"/>
+        <pathelement path="${third_party}/java/jchardet/chardet.jar"/>
+        <pathelement path="${third_party}/java/rhino/js.jar"/>
+        <pathelement path="${third_party}/java/xerces/xercesImpl.jar"/>
+        <pathelement path="${jars}/htmlparser.jar"/>
+    </path>
+    <path id="classpath.run">
+        <pathelement path="${lib}"/>
+        <path refid="classpath.compile"/>
+    </path>
+    <path id="classpath.tests.compile">
+        <path refid="classpath.common"/>
+        <path refid="classpath.gwt"/>
+        <pathelement path="${third_party}/java/junit/junit.jar"/>
+        <pathelement path="${third_party}/java/webdriver/libs/guava-r09.jar"/>
+        <pathelement path="${third_party}/java/json_simple/json_simple.jar"/>
+        <pathelement path="${third_party}/java/rhino/js.jar"/>
+        <pathelement path="${third_party}/java/webdriver/selenium-java-2.0rc3.jar"/>
+        <pathelement path="${third_party}/java/webdriver/libs/json-20080701.jar"/>
+    </path>
+    <path id="classpath.tests.run">
+        <pathelement path="${third_party}/java/emma/emma.jar"/>
+        <path refid="classpath.tests.compile"/>
+        <pathelement path="${instr}/classes"/>
+        <!-- Must be last for coverage to work -->
+        <path refid="classpath.run"/>
+    </path>
+    <path id="classpath.extensions">
+        <pathelement path="${third_party}/java/emma/emma_ant.jar"/>
+        <pathelement path="${third_party}/java/emma/emma.jar"/>
+        <pathelement path="${third_party}/java/junit/junit.jar"/>
+        <pathelement path="${third_party}/java/apache_ant/ant-junit.jar"/>
+    </path>
+    <path id="classpath.ant">
+        <pathelement path="${ant.home}/lib/ant.jar"/>
+    </path>
+    <path id="classpath.tools">
+        <path refid="classpath.ant"/>
+        <path refid="classpath.compile"/>
+        <pathelement
+                path="${third_party}/java/jakarta_commons/commons-fileupload-1.2.1.jar"/>
+        <pathelement path="${third_party}/java/jakarta_commons/commons-io-1.4.jar"/>
+    </path>
+    <path id="classpath.javadocs">
+        <path refid="classpath.tests.compile"/>
+        <path refid="classpath.tools"/>
+    </path>
+
+    <!--== Tasks Used Below ==-->
+
+    <!--== Appengine tasks ==-->
+    <import file="${third_party}/java/appengine/config/user/ant-macros.xml"/>
+
+    <taskdef resource="emma_ant.properties"
+             classpathref="classpath.extensions"/>
+
+    <taskdef name="junit"
+             classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"
+             classpathref="classpath.extensions"/>
+</project>
