@@ -1,6 +1,6 @@
 ## CAJA 
 
-### caja库的相关研究和应用
+### caja lib
 
 ###### how to use?
 ```javascript
