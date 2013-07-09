@@ -1256,25 +1256,13 @@
         </copy>
     </target>
 
-    <target name="yuitest" depends="pluginc,dirs">
-        <transform>
-            <input file="yuitest/yahoo-dom.js"/>
-            <output file="yuitest/yahoo-dom.out.js" language="caja"/>
-        </transform>
-
-        <transform>
-            <input file="yuitest/dom_test.html"/>
-            <output file="yuitest/dom_test.out.html" language="caja"/>
-        </transform>
-    </target>
-
-    <target name="taobaotest" depends="pluginc,dirs">
+    <!--<target name="taobaotest" depends="pluginc,dirs">
         <transform>
             <input file="taobaotest/test.js"/>
             <output file="taobaotest/test.out.js" language="caja"/>
         </transform>
     </target>
-
+-->
     <target name="init.maven.tasks">
         <path id="maven.ant.tasks.classpath" path="${maven.ant.tasks.jar}"/>
         <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
