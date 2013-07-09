@@ -72,6 +72,7 @@ var ___, cajaVM, safeJSON;
     // Blacklist built from:
     // http://www.thespanner.co.uk/2009/07/14/hidden-firefox-properties-revisited/
     // [args, actuals length, callee, formals length, func name, caller]
+    // firefox 有些内部变量在js原型上面, caja 这里要把这些"不为人知"的内部变量 加到黑名单中。具体可以查看上面链接 comment by shiba
     deodorize(Function.prototype, -6);
 
     // [string length]
@@ -1626,7 +1627,10 @@ var ___, cajaVM, safeJSON;
     ////////////////////////////////////////////////////////////////////////
     // JSON
     ////////////////////////////////////////////////////////////////////////
-
+/*    virtualize(JSON, "parse");
+    virtualize(JSON, "parse");*/
+    //remove safeJSON ,use KISSY.JSON
+    /*
     // TODO: Can all this JSON stuff be moved out of the TCB?
     function jsonParseOk(json) {
         try {
@@ -1654,6 +1658,7 @@ var ___, cajaVM, safeJSON;
             return false;
         }
     }
+
 
     var goodJSON = {};
     var parser = jsonParseOk(JSON) ? JSON.parse : json_sans_eval.parse;
@@ -1706,7 +1711,7 @@ var ___, cajaVM, safeJSON;
             }
             return goodJSON.stringify(obj, replacer, opt_space);
         })
-    });
+    });*/
 
 
     ////////////////////////////////////////////////////////////////////////
@@ -4204,7 +4209,7 @@ var ___, cajaVM, safeJSON;
         if (i < 0) {
             i += len;
         }
-        i = Math.min___(i, len - 1);
+        i = Math.min(i, len - 1); //source code here Math.min___ , but this function is not defined
         for (; i >= 0; i--) {
             if (!this.hasOwnProperty(i)) {
                 continue;
@@ -4692,6 +4697,7 @@ var ___, cajaVM, safeJSON;
             'getUTCDay',
             'getUTCDate',
             'getUTCMonth',
+            'getUTCMilliseconds',
             'getUTCFullYear',
             'getMilliseconds',
             'getTimezoneOffset',
@@ -4704,8 +4710,15 @@ var ___, cajaVM, safeJSON;
             'setMilliseconds',
             'setTime',
             'toISOString',
-            'toJSON'
-        ];
+            'toJSON',
+            'setUTCFullYear',
+            'setUTCMonth',
+            'setUTCDate',
+            'setUTCHours',
+            'setUTCMinutes',
+            'setUTCSeconds',
+            'setUTCMilliseconds'
+        ];//here set UTC* method not added
         for (var i = 0; i < methods.length; ++i) {
             virtualize(Date.prototype, methods[i]);
         }
@@ -5413,7 +5426,7 @@ var ___, cajaVM, safeJSON;
         encodeURIComponent: markFunc(encodeURIComponent),
         escape: escape ? markFunc(escape) : (void 0),
         Math: Math,
-        JSON: safeJSON,
+        JSON: JSON,
 
         Object: Object,
         Array: Array,

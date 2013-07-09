@@ -31,7 +31,7 @@ var caja = (function () {
         return base + '/' + path;
     }
 
-    function documentBaseUrl() {
+    /*function documentBaseUrl() {
         var bases = document.getElementsByTagName('base');
         if (bases.length == 0) {
             return document.location.toString();
@@ -44,7 +44,7 @@ var caja = (function () {
         } else {
             throw new Error('Caja loader error: document contains multiple <base>.');
         }
-    }
+    }*/
 
     function createIframe(opt_className) {
         // create iframe to load Cajita runtime in
@@ -215,7 +215,7 @@ var caja = (function () {
             var iframe = createIframe(filename);
 
             var url = joinUrl(cajaServer,
-                debug ? filename + '.js' : filename + '-min.js');
+                debug ? filename + '.js?t=20130523' : filename + '-min.js?t=20130523');
 
             // in order to avoid permission denied error if set domain in ie(ie6)
             var srcScript = 'document.open();' +
@@ -258,12 +258,12 @@ var caja = (function () {
 
         loadCajaFrame('es53-taming-frame', function (tamingFrame) {
             var tamingWindow = tamingFrame.contentWindow;
-            var cajolingServiceClient =
+            /*var cajolingServiceClient =
                 tamingWindow.cajolingServiceClientMaker(
                     joinUrl(cajaServer, 'cajole'),
                     tamingWindow.jsonRestTransportMaker(),
                     true,
-                    config.debug);
+                    config.debug);*/
 
             /**
              * Tame an object graph by applying reasonable defaults to all structures
@@ -410,9 +410,10 @@ var caja = (function () {
                     var guestWindow = guestFrame.contentWindow;
                     var imports = {};
 
+                    /* //Ã»ÓÐÓÃ£¬×¢ÊÍµô
                     var loader = guestWindow.loadModuleMaker(
                         documentBaseUrl(),
-                        cajolingServiceClient);
+                        cajolingServiceClient);*/
 
                     if (div) {
                         // The Domita implementation is obtained from the taming window,
@@ -500,11 +501,12 @@ var caja = (function () {
                         };
                     }
 
+                    //in taobo shop, this func is used
                     function contentCajoled(baseUrl, cajoledJs, opt_staticHtml) {
                         return runMaker(cajoledRunner(baseUrl, cajoledJs, opt_staticHtml));
                     }
 
-                    function urlCajoled(baseUrl, cajoledJsUrl, opt_staticHtmlUrl) {
+                    /*function urlCajoled(baseUrl, cajoledJsUrl, opt_staticHtmlUrl) {
                         return runMaker(function (imports, opt_callback) {
                             // XHR get the cajoled content.
                             // cajoledRunner(
@@ -515,9 +517,9 @@ var caja = (function () {
                             //     opt_callback);
                             throw new Error("Not yet implemented.");
                         });
-                    }
+                    }*/
 
-                    function content(url, inputContent, mimeType) {
+                    /*function content(url, inputContent, mimeType) {
                         return runMaker(function (imports, opt_callback) {
                             tamingWindow.Q.when(
                                 cajolingServiceClient.cajoleContent(
@@ -541,9 +543,9 @@ var caja = (function () {
                                     throw new Error('Error cajoling content: ' + err);
                                 });
                         });
-                    }
+                    }*/
 
-                    function url(theUrl, contentType) {
+                    /*function url(theUrl, contentType) {
                         return runMaker(function (imports, opt_callback) {
                             guestWindow.Q.when(
                                 loader.async(theUrl, contentType),
@@ -557,20 +559,20 @@ var caja = (function () {
                                     console.log('Error in module loading: ' + err);
                                 });
                         });
-                    }
+                    }*/
 
                     callback({
-                        url:url,
-                        urlCajoled:urlCajoled,
-                        content:content,
+                        //url:url,
+                        //urlCajoled:urlCajoled,
+                        //content:content,
                         contentCajoled:contentCajoled,
                         div:div,
                         innerContainer:innerContainer,
                         outerContainer:outerContainer,
                         idSuffix:idSuffix,
                         iframe:guestFrame,
-                        imports:imports,
-                        loader:loader
+                        imports:imports
+                        //loader:loader
                     });
                 });
             }

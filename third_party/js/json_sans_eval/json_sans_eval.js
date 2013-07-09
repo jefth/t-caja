@@ -237,7 +237,7 @@
  * @author Mike Samuel <mikesamuel@gmail.com>
  */
 
-if (typeof Date.prototype.toJSON !== 'function') {
+/*if (typeof Date.prototype.toJSON !== 'function') {
   Date.prototype.toJSON = function (key) {
     return isFinite(this.valueOf()) ?
     this.getUTCFullYear()   + '-' +
@@ -253,485 +253,487 @@ if (typeof Date.prototype.toJSON !== 'function') {
   Boolean.prototype.toJSON = function (key) {
     return this.valueOf();
   };
-}
+}*/
 
-var json_sans_eval = (function() {
+var json_sans_eval = top.KISSY.JSON;
 
-   var hop = Object.hasOwnProperty;
+   /* (function() {
 
-   ///////////////////// from json2.js //////////////////////////
+        var hop = Object.hasOwnProperty;
 
-   function f(n) {
-     // Format integers to have at least two digits.
-     return n < 10 ? '0' + n : n;
-   }
+        ///////////////////// from json2.js //////////////////////////
 
-   var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-   escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-   gap,
-   indent,
-   meta = {    // table of character substitutions
-     '\b': '\\b',
-     '\t': '\\t',
-     '\n': '\\n',
-     '\f': '\\f',
-     '\r': '\\r',
-     '"' : '\\"',
-     '\\': '\\\\'
-   },
-   rep;
+        function f(n) {
+            // Format integers to have at least two digits.
+            return n < 10 ? '0' + n : n;
+        }
 
+        var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+            escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+            gap,
+            indent,
+            meta = {    // table of character substitutions
+                '\b': '\\b',
+                '\t': '\\t',
+                '\n': '\\n',
+                '\f': '\\f',
+                '\r': '\\r',
+                '"' : '\\"',
+                '\\': '\\\\'
+            },
+            rep;
 
-   function quote(string) {
 
-     // If the string contains no control characters, no quote
-     // characters, and no
-     // backslash characters, then we can safely slap some quotes around it.
-     // Otherwise we must also replace the offending characters with safe escape
-     // sequences.
+        function quote(string) {
 
-     escapable.lastIndex = 0;
-     return escapable.test(string) ?
-       '"' + string.replace(escapable, function (a) {
-                              var c = meta[a];
-                              return typeof c === 'string' ? c :
-                                '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-                            }) + '"' :
-     '"' + string + '"';
-   }
+            // If the string contains no control characters, no quote
+            // characters, and no
+            // backslash characters, then we can safely slap some quotes around it.
+            // Otherwise we must also replace the offending characters with safe escape
+            // sequences.
 
+            escapable.lastIndex = 0;
+            return escapable.test(string) ?
+                '"' + string.replace(escapable, function (a) {
+                    var c = meta[a];
+                    return typeof c === 'string' ? c :
+                        '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+                }) + '"' :
+                '"' + string + '"';
+        }
 
-   function str(key, holder) {
 
-     // Produce a string from holder[key].
+        function str(key, holder) {
 
-     var i,          // The loop counter.
-     k,          // The member key.
-     v,          // The member value.
-     length,
-     mind = gap,
-     partial,
-     value = holder[key];
+            // Produce a string from holder[key].
 
-     // If the value has a toJSON method, call it to obtain a replacement value.
+            var i,          // The loop counter.
+                k,          // The member key.
+                v,          // The member value.
+                length,
+                mind = gap,
+                partial,
+                value = holder[key];
 
-     if (value && typeof value === 'object' &&
-         typeof value.toJSON === 'function') {
-       value = value.toJSON(key);
-     }
-
-     // If we were called with a replacer function, then call the replacer to
-     // obtain a replacement value.
-
-     if (typeof rep === 'function') {
-       value = rep.call(holder, key, value);
-     }
-
-     // What happens next depends on the value's type.
-
-     switch (typeof value) {
-     case 'string':
-       return quote(value);
-
-     case 'number':
-
-       // JSON numbers must be finite. Encode non-finite numbers as null.
-
-       return isFinite(value) ? String(value) : 'null';
-
-     case 'boolean':
-     case 'null':
-
-       // If the value is a boolean or null, convert it to a string. Note:
-       // typeof null does not produce 'null'. The case is included here in
-       // the remote chance that this gets fixed someday.
-
-       return String(value);
-
-       // If the type is 'object', we might be dealing with an object
-       // or an array or
-       // null.
-
-     case 'object':
-
-       // Due to a specification blunder in ECMAScript, typeof null is 'object',
-       // so watch out for that case.
-
-       if (!value) {
-         return 'null';
-       }
-
-       // Make an array to hold the partial results of stringifying
-       // this object value.
-
-       gap += indent;
-       partial = [];
-
-       // Is the value an array?
-
-       if (Object.prototype.toString.apply(value) === '[object Array]') {
-
-         // The value is an array. Stringify every element. Use null
-         // as a placeholder
-         // for non-JSON values.
-
-         length = value.length;
-         for (i = 0; i < length; i += 1) {
-           partial[i] = str(i, value) || 'null';
-         }
-
-         // Join all of the elements together, separated with commas,
-         // and wrap them in
-         // brackets.
-
-         v = partial.length === 0 ? '[]' :
-           gap ? '[\n' + gap +
-           partial.join(',\n' + gap) + '\n' +
-           mind + ']' :
-           '[' + partial.join(',') + ']';
-         gap = mind;
-         return v;
-       }
-
-       // If the replacer is an array, use it to select the members to
-       // be stringified.
-
-       if (rep && typeof rep === 'object') {
-         length = rep.length;
-         for (i = 0; i < length; i += 1) {
-           k = rep[i];
-           if (typeof k === 'string') {
-             v = str(k, value);
-             if (v) {
-               partial.push(quote(k) + (gap ? ': ' : ':') + v);
-             }
-           }
-         }
-       } else {
-
-         // Otherwise, iterate through all of the keys in the object.
-
-         for (k in value) {
-           if (hop.call(value, k)) {
-             v = str(k, value);
-             if (v) {
-               partial.push(quote(k) + (gap ? ': ' : ':') + v);
-             }
-           }
-         }
-       }
-
-       // Join all of the member texts together, separated with commas,
-       // and wrap them in braces.
-
-       v = partial.length === 0 ? '{}' :
-         gap ? '{\n' + gap + partial.join(',\n' + gap) + '\n' +
-         mind + '}' : '{' + partial.join(',') + '}';
-       gap = mind;
-       return v;
-     }
-   }
-
-   function stringify (value, replacer, space) {
-
-     // The stringify method takes a value and an optional replacer,
-     // and an optional space parameter, and returns a JSON
-     // text. The replacer can be a function that can replace
-     // values, or an array of strings that will select the keys. A
-     // default replacer method can be provided. Use of the space
-     // parameter can produce text that is more easily readable.
-
-     var i;
-     gap = '';
-     indent = '';
-
-     // If the space parameter is a number, make an indent string
-     // containing that
-     // many spaces.
-
-     if (typeof space === 'number') {
-       for (i = 0; i < space; i += 1) {
-         indent += ' ';
-       }
-
-       // If the space parameter is a string, it will be used as the
-       // indent string.
-
-     } else if (typeof space === 'string') {
-       indent = space;
-     }
-
-     // If there is a replacer, it must be a function or an array.
-     // Otherwise, throw an error.
-
-     rep = replacer;
-     if (replacer && typeof replacer !== 'function' &&
-         (typeof replacer !== 'object' ||
-          typeof replacer.length !== 'number')) {
-       throw new Error('json_sans_eval.stringify');
-     }
-
-     // Make a fake root object containing our value under the key of ''.
-     // Return the result of stringifying the value.
-
-     return str('', {'': value});
-   }
-
-   var number
-       = '(?:-?\\b(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\\b)';
-   var oneChar = '(?:[^\\0-\\x08\\x0a-\\x1f\"\\\\]'
-       + '|\\\\(?:[\"/\\\\bfnrt]|u[0-9A-Fa-f]{4}))';
-   var string = '(?:\"' + oneChar + '*\")';
-
-   // Will match a value in a well-formed JSON file.
-   // If the input is not well-formed, may match strangely, but not in an unsafe
-   // way.
-   // Since this only matches value tokens, it does not match
-   // whitespace, colons,
-   // or commas.
-   var significantToken = new RegExp(
-       '(?:false|true|null|[\\{\\}\\[\\]]'
-       + '|' + number
-       + '|' + string
-       + ')', 'g');
-
-   // Matches escape sequences in a string literal
-   var escapeSequence = new RegExp('\\\\(?:([^u])|u(.{4}))', 'g');
-
-   // Decodes escape sequences in object literals
-   var escapes = {
-     '"': '"',
-     '/': '/',
-     '\\': '\\',
-     'b': '\b',
-     'f': '\f',
-     'n': '\n',
-     'r': '\r',
-     't': '\t'
-   };
-   function unescapeOne(_, ch, hex) {
-     return ch ? escapes[ch] : String.fromCharCode(parseInt(hex, 16));
-   }
-
-   // A non-falsy value that coerces to the empty string when used as a key.
-   var EMPTY_STRING = new String('');
-   var SLASH = '\\';
-
-   var completeToken = new RegExp(
-       '(?:false|true|null|[ \t\r\n]+|[\\{\\}\\[\\],:]'
-       + '|' + number
-       + '|' + string
-       + '|.)', 'g');
-
-   function blank(arr, s, e) { while (--e >= s) { arr[e] = ''; } }
-
-   function checkSyntax(text, keyFilter) {
-     var toks = ('' + text).match(completeToken);
-     var i = 0, n = toks.length;
-     checkArray();
-     if (i < n) {
-       throw new Error('Trailing tokens ' + toks.slice(i - 1).join(''));
-     }
-     return toks.join('');
-
-     function checkArray() {
-       while (i < n) {
-         var t = toks[i++];
-         switch (t) {
-           case ']': return;
-           case '[': checkArray(); break;
-           case '{': checkObject(); break;
-         }
-       }
-     }
-     function checkObject() {
-       // For the tokens    {  "a"  :  null  ,  "b" ...
-       // the state is         0    1  2     3  0
-       var state = 0;
-       // If we need to sanitize instead of validating, uncomment:
-       // var skip = 0;  // The index of the first token to skip or 0.
-       while (i < n) {
-         var t = toks[i++];
-         switch (t.charCodeAt(0)) {
-           case 0x09: case 0x0a: case 0x0d: case 0x20: continue; // space chars
-           case 0x22: // "
-             var len = t.length;
-             if (len === 1) { throw new Error(t); }
-             if (state === 0) {
-               if (keyFilter && !keyFilter(
-                       t.substring(1, len - 1)
-                       .replace(escapeSequence, unescapeOne))) {
-                 throw new Error(t);
-                 // If we need to sanitize instead of validating, uncomment:
-                 // skip = i - 1;
-               }
-             } else if (state !== 2) { throw new Error(t); }
-             break;
-           case 0x27: throw new Error(t);  // '
-           case 0x2c: // ,
-             if (state !== 3) { throw new Error(t); }
-             state = 0;
-             // If we need to sanitize instead of validating, uncomment:
-             // if (skip) { blank(toks, skip, i); skip = 0; }
-             continue;
-           case 0x3a: // :
-             if (state !== 1) { throw new Error(t); }
-             break;
-           case 0x5b:  // [
-             if (state !== 2) { throw new Error(t); }
-             checkArray();
-             break;
-           case 0x7b:  // {
-             if (state !== 2) { throw new Error(t); }
-             checkObject();
-             break;
-           case 0x7d:  // }
-             // If we need to sanitize instead of validating, uncomment:
-             // if (skip) { blank(toks, skip, i - 1); skip = 0; }
-             return;
-           default:
-             if (state !== 2) { throw new Error(t); }
-             break;
-         }
-         ++state;
-       }
-     }
-   };
-
-   function parse (json, opt_reviver) {
-     // Split into tokens
-     var toks = json.match(significantToken);
-     // Construct the object to return
-     var result;
-     var tok = toks[0];
-     if ('{' === tok) {
-       result = {};
-     } else if ('[' === tok) {
-       result = [];
-     } else {
-       throw new Error(tok);
-     }
-
-     // If undefined, the key in an object key/value record to use
-     // for the next
-     // value parsed.
-     var key;
-     // Loop over remaining tokens maintaining a stack of
-     // uncompleted objects and
-     // arrays.
-     var stack = [result];
-     for (var i = 1, n = toks.length; i < n; ++i) {
-       tok = toks[i];
-
-       var cont;
-       switch (tok.charCodeAt(0)) {
-       default:  // sign or digit
-         cont = stack[0];
-         cont[key || cont.length] = +(tok);
-         key = void 0;
-         break;
-       case 0x22:  // '"'
-         tok = tok.substring(1, tok.length - 1);
-         if (tok.indexOf(SLASH) !== -1) {
-           tok = tok.replace(escapeSequence, unescapeOne);
-         }
-         cont = stack[0];
-         if (!key) {
-           if (cont instanceof Array) {
-             key = cont.length;
-           } else {
-             key = tok || EMPTY_STRING;  // Use as key for next value seen.
-             break;
-           }
-         }
-         cont[key] = tok;
-         key = void 0;
-         break;
-       case 0x5b:  // '['
-         cont = stack[0];
-         stack.unshift(cont[key || cont.length] = []);
-         key = void 0;
-         break;
-       case 0x5d:  // ']'
-         stack.shift();
-         break;
-       case 0x66:  // 'f'
-         cont = stack[0];
-         cont[key || cont.length] = false;
-         key = void 0;
-         break;
-       case 0x6e:  // 'n'
-         cont = stack[0];
-         cont[key || cont.length] = null;
-         key = void 0;
-         break;
-       case 0x74:  // 't'
-         cont = stack[0];
-         cont[key || cont.length] = true;
-         key = void 0;
-         break;
-       case 0x7b:  // '{'
-         cont = stack[0];
-         stack.unshift(cont[key || cont.length] = {});
-         key = void 0;
-         break;
-       case 0x7d:  // '}'
-         stack.shift();
-         break;
-       }
-     }
-     // Fail if we've got an uncompleted object.
-     if (stack.length) { throw new Error(); }
-
-     if (opt_reviver) {
-       // Based on walk as implemented in http://www.json.org/json2.js
-       var walk = function (holder, key) {
-         var value = holder[key];
-         if (value && typeof value === 'object') {
-           var toDelete = null;
-           for (var k in value) {
-             if (hop.call(value, k) && value !== holder) {
-               // Recurse to properties first.  This has the effect of causing
-               // the reviver to be called on the object graph depth-first.
-
-               // Since 'this' is bound to the holder of the property, the
-               // reviver can access sibling properties of k including ones
-               // that have not yet been revived.
-
-               // The value returned by the reviver is used in place of the
-               // current value of property k.
-               // If it returns undefined then the property is deleted.
-               var v = walk(value, k);
-               if (v !== void 0) {
-                 value[k] = v;
-               } else {
-                 // Deleting properties inside the loop has vaguely defined
-                 // semantics in ES3.
-                 if (!toDelete) { toDelete = []; }
-                 toDelete.push(k);
-               }
-             }
-           }
-           if (toDelete) {
-             for (var i = toDelete.length; --i >= 0;) {
-               delete value[toDelete[i]];
-             }
-           }
-         }
-         return opt_reviver.call(holder, key, value);
-       };
-       result = walk({ '': result }, '');
-     }
-
-     return result;
-   }
-
-   return {
-     checkSyntax: checkSyntax,
-     parse: parse,
-     stringify: stringify
-   };
-})();
+            // If the value has a toJSON method, call it to obtain a replacement value.
+
+            if (value && typeof value === 'object' &&
+                typeof value.toJSON === 'function') {
+                value = value.toJSON(key);
+            }
+
+            // If we were called with a replacer function, then call the replacer to
+            // obtain a replacement value.
+
+            if (typeof rep === 'function') {
+                value = rep.call(holder, key, value);
+            }
+
+            // What happens next depends on the value's type.
+
+            switch (typeof value) {
+                case 'string':
+                    return quote(value);
+
+                case 'number':
+
+                    // JSON numbers must be finite. Encode non-finite numbers as null.
+
+                    return isFinite(value) ? String(value) : 'null';
+
+                case 'boolean':
+                case 'null':
+
+                    // If the value is a boolean or null, convert it to a string. Note:
+                    // typeof null does not produce 'null'. The case is included here in
+                    // the remote chance that this gets fixed someday.
+
+                    return String(value);
+
+                // If the type is 'object', we might be dealing with an object
+                // or an array or
+                // null.
+
+                case 'object':
+
+                    // Due to a specification blunder in ECMAScript, typeof null is 'object',
+                    // so watch out for that case.
+
+                    if (!value) {
+                        return 'null';
+                    }
+
+                    // Make an array to hold the partial results of stringifying
+                    // this object value.
+
+                    gap += indent;
+                    partial = [];
+
+                    // Is the value an array?
+
+                    if (Object.prototype.toString.apply(value) === '[object Array]') {
+
+                        // The value is an array. Stringify every element. Use null
+                        // as a placeholder
+                        // for non-JSON values.
+
+                        length = value.length;
+                        for (i = 0; i < length; i += 1) {
+                            partial[i] = str(i, value) || 'null';
+                        }
+
+                        // Join all of the elements together, separated with commas,
+                        // and wrap them in
+                        // brackets.
+
+                        v = partial.length === 0 ? '[]' :
+                            gap ? '[\n' + gap +
+                                partial.join(',\n' + gap) + '\n' +
+                                mind + ']' :
+                                '[' + partial.join(',') + ']';
+                        gap = mind;
+                        return v;
+                    }
+
+                    // If the replacer is an array, use it to select the members to
+                    // be stringified.
+
+                    if (rep && typeof rep === 'object') {
+                        length = rep.length;
+                        for (i = 0; i < length; i += 1) {
+                            k = rep[i];
+                            if (typeof k === 'string') {
+                                v = str(k, value);
+                                if (v) {
+                                    partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                                }
+                            }
+                        }
+                    } else {
+
+                        // Otherwise, iterate through all of the keys in the object.
+
+                        for (k in value) {
+                            if (hop.call(value, k)) {
+                                v = str(k, value);
+                                if (v) {
+                                    partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                                }
+                            }
+                        }
+                    }
+
+                    // Join all of the member texts together, separated with commas,
+                    // and wrap them in braces.
+
+                    v = partial.length === 0 ? '{}' :
+                        gap ? '{\n' + gap + partial.join(',\n' + gap) + '\n' +
+                            mind + '}' : '{' + partial.join(',') + '}';
+                    gap = mind;
+                    return v;
+            }
+        }
+
+        function stringify (value, replacer, space) {
+
+            // The stringify method takes a value and an optional replacer,
+            // and an optional space parameter, and returns a JSON
+            // text. The replacer can be a function that can replace
+            // values, or an array of strings that will select the keys. A
+            // default replacer method can be provided. Use of the space
+            // parameter can produce text that is more easily readable.
+
+            var i;
+            gap = '';
+            indent = '';
+
+            // If the space parameter is a number, make an indent string
+            // containing that
+            // many spaces.
+
+            if (typeof space === 'number') {
+                for (i = 0; i < space; i += 1) {
+                    indent += ' ';
+                }
+
+                // If the space parameter is a string, it will be used as the
+                // indent string.
+
+            } else if (typeof space === 'string') {
+                indent = space;
+            }
+
+            // If there is a replacer, it must be a function or an array.
+            // Otherwise, throw an error.
+
+            rep = replacer;
+            if (replacer && typeof replacer !== 'function' &&
+                (typeof replacer !== 'object' ||
+                    typeof replacer.length !== 'number')) {
+                throw new Error('json_sans_eval.stringify');
+            }
+
+            // Make a fake root object containing our value under the key of ''.
+            // Return the result of stringifying the value.
+
+            return str('', {'': value});
+        }
+
+        var number
+            = '(?:-?\\b(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\\b)';
+        var oneChar = '(?:[^\\0-\\x08\\x0a-\\x1f\"\\\\]'
+            + '|\\\\(?:[\"/\\\\bfnrt]|u[0-9A-Fa-f]{4}))';
+        var string = '(?:\"' + oneChar + '*\")';
+
+        // Will match a value in a well-formed JSON file.
+        // If the input is not well-formed, may match strangely, but not in an unsafe
+        // way.
+        // Since this only matches value tokens, it does not match
+        // whitespace, colons,
+        // or commas.
+        var significantToken = new RegExp(
+            '(?:false|true|null|[\\{\\}\\[\\]]'
+                + '|' + number
+                + '|' + string
+                + ')', 'g');
+
+        // Matches escape sequences in a string literal
+        var escapeSequence = new RegExp('\\\\(?:([^u])|u(.{4}))', 'g');
+
+        // Decodes escape sequences in object literals
+        var escapes = {
+            '"': '"',
+            '/': '/',
+            '\\': '\\',
+            'b': '\b',
+            'f': '\f',
+            'n': '\n',
+            'r': '\r',
+            't': '\t'
+        };
+        function unescapeOne(_, ch, hex) {
+            return ch ? escapes[ch] : String.fromCharCode(parseInt(hex, 16));
+        }
+
+        // A non-falsy value that coerces to the empty string when used as a key.
+        var EMPTY_STRING = new String('');
+        var SLASH = '\\';
+
+        var completeToken = new RegExp(
+            '(?:false|true|null|[ \t\r\n]+|[\\{\\}\\[\\],:]'
+                + '|' + number
+                + '|' + string
+                + '|.)', 'g');
+
+        function blank(arr, s, e) { while (--e >= s) { arr[e] = ''; } }
+
+        function checkSyntax(text, keyFilter) {
+            var toks = ('' + text).match(completeToken);
+            var i = 0, n = toks.length;
+            checkArray();
+            if (i < n) {
+                throw new Error('Trailing tokens ' + toks.slice(i - 1).join(''));
+            }
+            return toks.join('');
+
+            function checkArray() {
+                while (i < n) {
+                    var t = toks[i++];
+                    switch (t) {
+                        case ']': return;
+                        case '[': checkArray(); break;
+                        case '{': checkObject(); break;
+                    }
+                }
+            }
+            function checkObject() {
+                // For the tokens    {  "a"  :  null  ,  "b" ...
+                // the state is         0    1  2     3  0
+                var state = 0;
+                // If we need to sanitize instead of validating, uncomment:
+                // var skip = 0;  // The index of the first token to skip or 0.
+                while (i < n) {
+                    var t = toks[i++];
+                    switch (t.charCodeAt(0)) {
+                        case 0x09: case 0x0a: case 0x0d: case 0x20: continue; // space chars
+                        case 0x22: // "
+                            var len = t.length;
+                            if (len === 1) { throw new Error(t); }
+                            if (state === 0) {
+                                if (keyFilter && !keyFilter(
+                                    t.substring(1, len - 1)
+                                        .replace(escapeSequence, unescapeOne))) {
+                                    throw new Error(t);
+                                    // If we need to sanitize instead of validating, uncomment:
+                                    // skip = i - 1;
+                                }
+                            } else if (state !== 2) { throw new Error(t); }
+                            break;
+                        case 0x27: throw new Error(t);  // '
+                        case 0x2c: // ,
+                            if (state !== 3) { throw new Error(t); }
+                            state = 0;
+                            // If we need to sanitize instead of validating, uncomment:
+                            // if (skip) { blank(toks, skip, i); skip = 0; }
+                            continue;
+                        case 0x3a: // :
+                            if (state !== 1) { throw new Error(t); }
+                            break;
+                        case 0x5b:  // [
+                            if (state !== 2) { throw new Error(t); }
+                            checkArray();
+                            break;
+                        case 0x7b:  // {
+                            if (state !== 2) { throw new Error(t); }
+                            checkObject();
+                            break;
+                        case 0x7d:  // }
+                            // If we need to sanitize instead of validating, uncomment:
+                            // if (skip) { blank(toks, skip, i - 1); skip = 0; }
+                            return;
+                        default:
+                            if (state !== 2) { throw new Error(t); }
+                            break;
+                    }
+                    ++state;
+                }
+            }
+        };
+
+        function parse (json, opt_reviver) {
+            // Split into tokens
+            var toks = json.match(significantToken);
+            // Construct the object to return
+            var result;
+            var tok = toks[0];
+            if ('{' === tok) {
+                result = {};
+            } else if ('[' === tok) {
+                result = [];
+            } else {
+                throw new Error(tok);
+            }
+
+            // If undefined, the key in an object key/value record to use
+            // for the next
+            // value parsed.
+            var key;
+            // Loop over remaining tokens maintaining a stack of
+            // uncompleted objects and
+            // arrays.
+            var stack = [result];
+            for (var i = 1, n = toks.length; i < n; ++i) {
+                tok = toks[i];
+
+                var cont;
+                switch (tok.charCodeAt(0)) {
+                    default:  // sign or digit
+                        cont = stack[0];
+                        cont[key || cont.length] = +(tok);
+                        key = void 0;
+                        break;
+                    case 0x22:  // '"'
+                        tok = tok.substring(1, tok.length - 1);
+                        if (tok.indexOf(SLASH) !== -1) {
+                            tok = tok.replace(escapeSequence, unescapeOne);
+                        }
+                        cont = stack[0];
+                        if (!key) {
+                            if (cont instanceof Array) {
+                                key = cont.length;
+                            } else {
+                                key = tok || EMPTY_STRING;  // Use as key for next value seen.
+                                break;
+                            }
+                        }
+                        cont[key] = tok;
+                        key = void 0;
+                        break;
+                    case 0x5b:  // '['
+                        cont = stack[0];
+                        stack.unshift(cont[key || cont.length] = []);
+                        key = void 0;
+                        break;
+                    case 0x5d:  // ']'
+                        stack.shift();
+                        break;
+                    case 0x66:  // 'f'
+                        cont = stack[0];
+                        cont[key || cont.length] = false;
+                        key = void 0;
+                        break;
+                    case 0x6e:  // 'n'
+                        cont = stack[0];
+                        cont[key || cont.length] = null;
+                        key = void 0;
+                        break;
+                    case 0x74:  // 't'
+                        cont = stack[0];
+                        cont[key || cont.length] = true;
+                        key = void 0;
+                        break;
+                    case 0x7b:  // '{'
+                        cont = stack[0];
+                        stack.unshift(cont[key || cont.length] = {});
+                        key = void 0;
+                        break;
+                    case 0x7d:  // '}'
+                        stack.shift();
+                        break;
+                }
+            }
+            // Fail if we've got an uncompleted object.
+            if (stack.length) { throw new Error(); }
+
+            if (opt_reviver) {
+                // Based on walk as implemented in http://www.json.org/json2.js
+                var walk = function (holder, key) {
+                    var value = holder[key];
+                    if (value && typeof value === 'object') {
+                        var toDelete = null;
+                        for (var k in value) {
+                            if (hop.call(value, k) && value !== holder) {
+                                // Recurse to properties first.  This has the effect of causing
+                                // the reviver to be called on the object graph depth-first.
+
+                                // Since 'this' is bound to the holder of the property, the
+                                // reviver can access sibling properties of k including ones
+                                // that have not yet been revived.
+
+                                // The value returned by the reviver is used in place of the
+                                // current value of property k.
+                                // If it returns undefined then the property is deleted.
+                                var v = walk(value, k);
+                                if (v !== void 0) {
+                                    value[k] = v;
+                                } else {
+                                    // Deleting properties inside the loop has vaguely defined
+                                    // semantics in ES3.
+                                    if (!toDelete) { toDelete = []; }
+                                    toDelete.push(k);
+                                }
+                            }
+                        }
+                        if (toDelete) {
+                            for (var i = toDelete.length; --i >= 0;) {
+                                delete value[toDelete[i]];
+                            }
+                        }
+                    }
+                    return opt_reviver.call(holder, key, value);
+                };
+                result = walk({ '': result }, '');
+            }
+
+            return result;
+        }
+
+        return {
+            checkSyntax: checkSyntax,
+            parse: parse,
+            stringify: stringify
+        };
+    })();*/
 
 if (typeof JSON === 'undefined') { var JSON = {}; }
 if (typeof JSON.stringify !== 'function') {

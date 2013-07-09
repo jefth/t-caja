@@ -542,10 +542,7 @@ var attachDocumentStub = (function () {
 
     // These id patterns match the ones in HtmlAttributeRewriter.
 
-    var VALID_ID_CHAR =
-        unicode.LETTER + unicode.DIGIT + '_'
-            + '$\\-.:;=()\\[\\]'
-            + unicode.COMBINING_CHAR + unicode.EXTENDER;
+    var VALID_ID_CHAR = '[a-z]|[A-Z';
 
     var VALID_ID_PATTERN = new RegExp(
         '^[' + VALID_ID_CHAR + ']+$');

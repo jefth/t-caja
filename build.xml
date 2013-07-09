@@ -590,7 +590,7 @@
             <input file="${src}/com/google/caja/enhance-error.js"/>
             <input file="${third_party}/js/json_sans_eval/json_sans_eval.js"/>
             <input file="${src}/com/google/caja/es53.js"/>
-            <input file="${src}/com/google/caja/plugin/unicode.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/unicode.js"/>-->
             <input file="${lib}/com/google/caja/plugin/css-defs.js"/>
             <input file="${lib}/com/google/caja/plugin/html4-defs.js"/>
             <input file="${src}/com/google/caja/plugin/html-sanitizer.js"/>
@@ -598,10 +598,10 @@
             <input file="${src}/com/google/caja/plugin/bridal.js"/>
             <input file="${src}/com/google/caja/plugin/cssparser.js"/>
             <input file="${src}/com/google/caja/plugin/domita.js"/>
-            <input file="${src}/com/google/caja/plugin/uri.js"/>
-            <input file="${src}/com/google/caja/cajita-promise.js"/>
-            <input file="${src}/com/google/caja/plugin/json-rest-transport.js"/>
-            <input file="${src}/com/google/caja/plugin/cajoling-service-client.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/uri.js"/>-->
+            <!--<input file="${src}/com/google/caja/cajita-promise.js"/>-->
+            <!--<input file="${src}/com/google/caja/plugin/json-rest-transport.js"/>-->
+            <!--<input file="${src}/com/google/caja/plugin/cajoling-service-client.js"/>-->
             <input file="${src}/com/google/caja/plugin/taming-frame.js"/>
             <input file="${src}/com/google/caja/plugin/caja-iframe-done.js"/>
         </transform>
@@ -613,10 +613,10 @@
             <input file="${src}/com/google/caja/enhance-error.js"/>
             <input file="${third_party}/js/json_sans_eval/json_sans_eval.js"/>
             <input file="${src}/com/google/caja/es53.js"/>
-            <input file="${src}/com/google/caja/plugin/uri.js"/>
-            <input file="${src}/com/google/caja/cajita-promise.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/uri.js"/>-->
+           <!-- <input file="${src}/com/google/caja/cajita-promise.js"/>-->
             <input file="${src}/com/google/caja/plugin/prepare-modules.js"/>
-            <input file="${src}/com/google/caja/plugin/load-module.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/load-module.js"/>-->
             <input file="${src}/com/google/caja/plugin/caja-iframe-done.js"/>
         </transform>
         <transform>
@@ -1029,7 +1029,7 @@
     </target>
 
 	<!-- change log: remove jquery target here -->
-   <target name="runserver" depends="playground,photon,jquery,trycaja"
+   <target name="runserver" depends="playground,photon,trycaja"
     description="Starts the development server.">
     <dev_appserver war="${war}">
       <options>
@@ -1261,13 +1261,13 @@
             <input file="yuitest/yahoo-dom.js"/>
             <output file="yuitest/yahoo-dom.out.js" language="caja"/>
         </transform>
-        
+
         <transform>
             <input file="yuitest/dom_test.html"/>
             <output file="yuitest/dom_test.out.html" language="caja"/>
         </transform>
     </target>
-    
+
     <target name="taobaotest" depends="pluginc,dirs">
         <transform>
             <input file="taobaotest/test.js"/>
