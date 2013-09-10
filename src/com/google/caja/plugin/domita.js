@@ -4564,7 +4564,7 @@ var attachDocumentStub = (function () {
                     }
                     return 'url("'
                         + rewrittenUrl.replace(
-                        /[\"\'\{\}\(\):\\]/g,
+                        /[\"\'\{\}\(\)\\]/g,
                         function (ch) {
                             return '\\' + ch.charCodeAt(0).toString(16) + ' ';
                         })
@@ -4753,10 +4753,20 @@ var attachDocumentStub = (function () {
         // See http://www.whatwg.org/specs/web-apps/current-work/multipage/history.html#location0
         var tameLocation = ___.primFreeze({
             toString: ___.markFuncFreeze(function () {
-                return tameLocation.href;
+                return tameLocation.href();
             }),
-            href: String(optPseudoWindowLocation.href
-                || 'http://nosuchhost.fake:80/'),
+            href:  ___.markFuncFreeze(function (url) {
+                if (!url) {
+                    return optPseudoWindowLocation.href;
+                }else{
+                    url = uriCallback.rewrite(url, null, null, {XML_ATTR: "href"});
+                    if(url){
+                        optPseudoWindowLocation.href = url;
+                    }else{
+                        throw new Error("url is not in whitelist, can't location!");
+                    }
+                }
+            }),
             hash: String(optPseudoWindowLocation.hash || ''),
             host: String(optPseudoWindowLocation.host || 'nosuchhost.fake:80'),
             hostname: String(optPseudoWindowLocation.hostname || 'nosuchhost.fake'),

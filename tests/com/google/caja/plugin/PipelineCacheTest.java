@@ -14,7 +14,7 @@
 
 package com.google.caja.plugin;
 
-import com.google.caja.lang.css.CssSchema;
+import com.google.caja.lang.css1.CssSchema;
 import com.google.caja.lang.html.HtmlSchema;
 import com.google.caja.lexer.InputSource;
 import com.google.caja.parser.ParseTreeNode;

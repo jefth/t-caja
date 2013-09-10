@@ -20,12 +20,10 @@
     "-webkit-border-radius-top-left", "-webkit-border-radius-top-right",
     "-webkit-border-top-left-radius", "-webkit-border-top-right-radius",
     "-webkit-box-shadow",
-    "word-wrap", "zoom",
-    "filter", "-moz-opacity", "text-wrap",
-    "transform","-webkit-transform","-moz-transform"
+    "word-wrap", "zoom"
   ],
 
   "denied": [
-
+    "filter", "-moz-opacity", "text-wrap"
   ]
 }

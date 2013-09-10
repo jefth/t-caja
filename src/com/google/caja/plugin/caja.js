@@ -423,7 +423,8 @@ var caja = (function () {
                             '-' + idSuffix,
                             uriPolicy,
                             imports,
-                            innerContainer);
+                            innerContainer,
+                            location);
                         imports.htmlEmitter___ =
                             new tamingWindow.HtmlEmitter(innerContainer, imports.document);
                         var divWindow = div.ownerDocument.defaultView ||

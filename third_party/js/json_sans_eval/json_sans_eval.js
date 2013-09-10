@@ -255,7 +255,7 @@
   };
 }*/
 
-var json_sans_eval = top.KISSY.JSON;
+var json_sans_eval = parent.KISSY.JSON;
 
    /* (function() {
 

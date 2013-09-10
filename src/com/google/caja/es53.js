@@ -818,8 +818,12 @@ var ___, cajaVM, safeJSON;
             if (ctor === BASE_OBJECT_CONSTRUCTOR) {
                 f = untameCajaRecord(t);
             } else {
-                throw new TypeError(
-                    'Untaming of guest constructed objects unsupported: ' + t);
+                t = copyBuiltin(t);
+                if(!t){
+                    throw new TypeError(
+                        'Untaming of guest constructed objects unsupported: ' + t);
+                }
+                return t;
             }
         } else if (ttype === 'function') {
             f = untameCajaFunction(t);
@@ -2480,6 +2484,35 @@ var ___, cajaVM, safeJSON;
             seal: markFuncFreeze(seal),
             unseal: markFuncFreeze(unseal)
         });
+    }
+
+    // Given a builtin object "o" provided by either a guest or host frame,
+    // return a copy constructed in the taming frame. Return undefined if
+    // "o" is not a builtin object. Note that we only call this function if we
+    // know that "o" is *not* a primitive.
+    function copyBuiltin(o) {
+        var t = void 0;
+        switch (Object.prototype.toString.call(o)) {
+            case '[object Boolean]':
+                t = new Boolean(o);
+                break;
+            case '[object Date]':
+                t = new Date(o);
+                break;
+            case '[object Number]':
+                t = new Number(o);
+                break;
+            case '[object RegExp]':
+                t = new RegExp(o);
+                break;
+            case '[object String]':
+                t = new String(o);
+                break;
+            case '[object Error]':
+                var msg = o.toString();
+                t = new Error(msg);
+        }
+        return t;
     }
 
     /**

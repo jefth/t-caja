@@ -304,7 +304,7 @@
             <include name="**/caja/lang/css/HtmlDefinitions.java"/>
             <include name="**/caja/tools/EnumsToJs.java"/>
         </javac>
-        <genrule class="com.google.caja.lang.css.CssPropertyPatterns$Builder">
+        <genrule class="com.google.caja.lang.css1.CssPropertyPatterns$Builder">
             <output file="${lib}/com/google/caja/plugin/css-defs.js"/>
             <input file="${src}/com/google/caja/lang/css/css-extensions.json"/>
             <depend file="${src}/com/google/caja/lang/css/css21.json"/>

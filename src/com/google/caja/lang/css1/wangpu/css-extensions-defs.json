@@ -446,23 +446,6 @@
     { "key": "<attachment>",
       "signature": "scroll | fixed | local",
       "source": "http://www.w3.org/TR/2009/CR-css3-background-20091217/#ltattachmentgt"
-    },
-      { "key": "transform",
-          "signature": "rotate(<number:-100,100>deg)",
-          "default": "none",
-          "appliesTo": "*",
-          "inherited": false,
-          "mediaGroups": ["visual"],
-          "source": "http://www.w3.org/TR/css3-background/#the-border-radius",
-          "dom2property": "transform"
-      },
-      { "key": "-moz-transform",
-          "as": "transform",
-          "source": "http://www.the-art-of-web.com/css/border-radius/",
-          "dom2property": "MozTransform" },
-      { "key": "-webkit-transform",
-          "as": "transform",
-          "source": "http://www.the-art-of-web.com/css/border-radius/",
-          "dom2property": "WebkitTransform" }
+    }
   ]
 }

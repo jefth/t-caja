@@ -49,4 +49,4 @@
     };
 
 
-})(window, top.shop_log);
+})(window, parent.shop_log);

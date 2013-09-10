@@ -14,6 +14,7 @@
 
 package com.google.caja.lang.css;
 
+import com.google.caja.lang.css1.CssSchema;
 import com.google.caja.reporting.EchoingMessageQueue;
 import com.google.caja.reporting.MessageContext;
 import com.google.caja.util.MoreAsserts;
@@ -30,14 +31,14 @@ import junit.framework.TestCase;
  * @author mikesamuel@gmail.com
  */
 public class CssSchemaTest extends TestCase {
-  private CssSchema cssSchema;
+  private com.google.caja.lang.css1.CssSchema cssSchema;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
     cssSchema = CssSchema.getDefaultCss21Schema(
-        new EchoingMessageQueue(
-            new PrintWriter(System.err), new MessageContext()));
+			new EchoingMessageQueue(
+					new PrintWriter(System.err), new MessageContext()));
   }
 
   @Override
