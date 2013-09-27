@@ -262,6 +262,13 @@ var ___, cajaVM, safeJSON;
             return void 0;
         }
         var result;
+
+        //when under ie6 - ie8 version, will throw error
+        //!obj.hasOwnProperty === true , obj is window DOM document ...
+        if(!obj.hasOwnProperty){
+            return BASE_OBJECT_CONSTRUCTOR;
+        }
+
         if (obj.hasOwnProperty('Prototype___')) {
             var proto = obj.Prototype___;
             // At this point we know that (typeOf(proto) === 'object')

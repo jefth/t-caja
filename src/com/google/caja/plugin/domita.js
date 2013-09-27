@@ -950,7 +950,10 @@ var attachDocumentStub = (function () {
                     html4.ATTRIBS.hasOwnProperty(attribKey))) {
                     atype = html4.ATTRIBS[attribKey];
                     value = rewriteAttribute(tagName, attribName, atype, value);
-                } else {
+                } else if( attribName.indexOf('data-') === 0){
+
+                }
+                else {
                     value = null;
                 }
                 if (value !== null && value !== void 0) {
@@ -1035,7 +1038,7 @@ var attachDocumentStub = (function () {
                     var aname = attribs[i];
                     var atype = getAttributeType(tagName, aname);
                     var value = attribs[i + 1];
-                    if (aname !== 'target' && atype !== void 0) {
+                    if (/*aname !== 'target' && */atype !== void 0) {//target need't to limit
                         value = virtualizeAttributeValue(atype, value);
                         if (typeof value === 'string') {
                             out.push(' ', aname, '="', html.escapeAttrib(value), '"');
@@ -2421,6 +2424,10 @@ var attachDocumentStub = (function () {
 
         function lookupAttribute(map, tagName, attribName) {
             var attribKey;
+            //if data- then same to class
+            if (attribName.indexOf('data-') === 0) {
+                return 9;
+            }
             attribKey = tagName + '::' + attribName;
             if (map.hasOwnProperty(attribKey)) {
                 return map[attribKey];
@@ -4578,6 +4585,55 @@ var attachDocumentStub = (function () {
             this.writeByCanonicalName___(canonName, val);
             return value;
         };
+        //add by shiba, here support a check css attr and value method
+        imports.checkCss___ = function(el, stylePropertyName, value){
+            if (!imports.tameNode___(el, true).editable___) {
+                return ('style not editable');
+            }
+            stylePropertyName = String(stylePropertyName);
+
+            if (!allCssProperties.isCanonicalProp(stylePropertyName)) {
+                return ('Unknown CSS property name ' + stylePropertyName);
+            }
+            var cssPropertyName =
+                allCssProperties.getCssPropFromCanonical(stylePropertyName);
+            if (!allCssProperties.isCssProp(cssPropertyName)) {
+                return ('not allowProperty '+cssPropertyName);
+            }
+            var pattern = css.properties[cssPropertyName];
+            if (!pattern) {
+                return ('style not editable');
+            }
+            var val = '' + (value || '');
+            // CssPropertyPatterns.java only allows styles of the form
+            // url("...").  See the BUILTINS definition for the "uri" symbol.
+            val = val.replace(
+                /\burl\s*\(\s*\"([^\"]*)\"\s*\)/gi,
+                function (_, url) {
+                    var decodedUrl = decodeCssString(url);
+                    var rewrittenUrl = uriCallback
+                        ? uriCallback.rewrite(
+                        decodedUrl, html4.ueffects.SAME_DOCUMENT, html4.ltypes.SANDBOXED,
+                        { "CSS_PROP": cssPropertyName})
+                        : null;
+                    if (!rewrittenUrl) {
+                        rewrittenUrl = 'about:blank';
+                    }
+                    return 'url("'
+                        + rewrittenUrl.replace(
+                        /[\"\'\{\}\(\)\\]/g,
+                        function (ch) {
+                            return '\\' + ch.charCodeAt(0).toString(16) + ' ';
+                        })
+                        + '")';
+                });
+            if (val && !pattern.test(val + ' ')) {
+                return ('bad value `' + val + '` for CSS property '
+                    + stylePropertyName);
+            }
+            return true;
+        };
+
         TameStyle.prototype.toString =
             ___.markFuncFreeze(function () {
                 return '[Fake Style]';
