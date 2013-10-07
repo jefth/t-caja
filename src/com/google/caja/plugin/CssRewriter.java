@@ -15,9 +15,9 @@
 package com.google.caja.plugin;
 
 import com.google.caja.SomethingWidgyHappenedError;
-import com.google.caja.lang.css1.CssPropertyPatterns;
-import com.google.caja.lang.css1.CssSchema;
-import com.google.caja.lang.css1.CssSchema.SymbolInfo;
+import com.google.caja.lang.css.CssPropertyPatterns;
+import com.google.caja.lang.css.CssSchema;
+import com.google.caja.lang.css.CssSchema.SymbolInfo;
 import com.google.caja.lexer.ExternalReference;
 import com.google.caja.lexer.FilePosition;
 import com.google.caja.lexer.TokenConsumer;

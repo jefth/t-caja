@@ -20,7 +20,7 @@ import com.google.caja.ancillary.jsdoc.Jsdoc;
 import com.google.caja.ancillary.jsdoc.JsdocException;
 import com.google.caja.ancillary.linter.Linter;
 import com.google.caja.ancillary.opt.JsOptimizer;
-import com.google.caja.lang.css1.CssSchema;
+import com.google.caja.lang.css.CssSchema;
 import com.google.caja.lang.html.HTML;
 import com.google.caja.lexer.CharProducer;
 import com.google.caja.lexer.CssTokenType;

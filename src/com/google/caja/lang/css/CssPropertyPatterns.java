@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.caja.lang.css1;
+package com.google.caja.lang.css;
 
 import com.google.caja.SomethingWidgyHappenedError;
 import com.google.caja.config.AllowedFileResolver;
@@ -288,7 +288,7 @@ public class CssPropertyPatterns {
       boolean identBefore, CssPropertySignature.RepeatedSignature sig) {
     CssPropertySignature rep = sig.getRepeatedSignature();
     if (rep instanceof CssPropertySignature.ExclusiveSetSignature) {
-      // The spec (http://www.w3.org/TR/REC-CSS1/#css1-properties) defines
+      // The spec (http://www.w3.org/TR/REC-CSS1/#css-properties) defines
       // A double bar (A || B) means that either A or B or both must occur
       // in any order.
       // We convert [ a || b ] -> [a | b]+

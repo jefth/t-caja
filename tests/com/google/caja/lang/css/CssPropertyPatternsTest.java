@@ -14,8 +14,6 @@
 
 package com.google.caja.lang.css;
 
-import com.google.caja.lang.css1.CssPropertyPatterns;
-import com.google.caja.lang.css1.CssSchema;
 import com.google.caja.lexer.FilePosition;
 import com.google.caja.parser.css.CssPropertySignature;
 import com.google.caja.parser.js.ArrayConstructor;
