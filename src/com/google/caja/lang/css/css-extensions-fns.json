@@ -1,5 +1,0 @@
-{
-  "inherits": [
-      "css-extensions-fns-defs.json",
-      "css-extensions-fns-whitelist.json"]
-}
