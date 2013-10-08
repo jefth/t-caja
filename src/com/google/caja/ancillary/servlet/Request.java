@@ -17,7 +17,7 @@ package com.google.caja.ancillary.servlet;
 import com.google.caja.SomethingWidgyHappenedError;
 import com.google.caja.config.ConfigUtil;
 import com.google.caja.config.WhiteList;
-import com.google.caja.lang.css1.CssSchema;
+import com.google.caja.lang.css.CssSchema;
 import com.google.caja.lang.html.HtmlSchema;
 import com.google.caja.lexer.CharProducer;
 import com.google.caja.lexer.GuessContentType;

@@ -14,7 +14,7 @@
 
 package com.google.caja.lang.css.lang.css;
 
-import com.google.caja.lang.css1.CssSchema;
+import com.google.caja.lang.css.CssSchema;
 import com.google.caja.reporting.EchoingMessageQueue;
 import com.google.caja.reporting.MessageContext;
 import com.google.caja.util.MoreAsserts;

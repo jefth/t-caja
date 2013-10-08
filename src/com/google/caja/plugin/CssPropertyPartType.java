@@ -39,7 +39,7 @@ public enum CssPropertyPartType {
    * quoted to prevent confusion with the keywords with the same
    * names.</blockquote>
    *
-   * @see com.google.caja.lang.css1.CssSchema#isKeyword
+   * @see com.google.caja.lang.css.CssSchema#isKeyword
    */
   LOOSE_WORD,
   NUMBER,

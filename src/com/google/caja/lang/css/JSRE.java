@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.caja.lang.css1;
+package com.google.caja.lang.css;
 
 import com.google.caja.lexer.escaping.Escaping;
 import com.google.caja.util.Lists;

@@ -16,7 +16,7 @@ package com.google.caja.plugin.stages;
 
 import com.google.caja.plugin.Jobs;
 import com.google.caja.util.ContentType;
-import com.google.caja.lang.css1.CssSchema;
+import com.google.caja.lang.css.CssSchema;
 import com.google.caja.lang.html.HtmlSchema;
 
 /**

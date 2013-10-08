@@ -29,7 +29,7 @@
              "",
              "We allow only _blank."
              ],
-        "values": "_blank",
+        "values": "_blank,_self",
         "default": "_self"
       },
       { "key": "AREA::TARGET", "optional": "true", "type": "FRAME_TARGET",
