@@ -876,8 +876,8 @@
       "mediaGroups": ["aural"] },
 
     { "key": "position",
-      "signature": "static | relative | absolute",
-      "signature-comment": "'fixed' is not allowed",
+      "signature": "static | relative | absolute | fixed",
+      "signature-comment": "'fixed' is allowed",
       "default": "static",
       "appliesTo": "*",
       "inherited": false,
@@ -1308,7 +1308,7 @@
           " words and turns them into a single quoted term.",
           "Subsequent words need not be unreserved since a 'font-family'",
           " cannot be followed directly by a reserved keyword."],
-      "signature": "<unreserved-word> <quotable-word>*" }
+      "signature": "<unreserved-word> <quotable-word>*" },
 
     { "key": "<margin-width>",
       "see": "http://www.w3.org/TR/CSS21/box.html#value-def-margin-width",
