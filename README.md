@@ -1,5 +1,5 @@
 ## 简介
-* [caja](https://code.google.com/p/google-caja/) 是一个让第三方html,css,js嵌入到我们站点的工具，由google 团队完成
+[caja](https://code.google.com/p/google-caja/) 是一个让第三方html,css,js嵌入到我们站点的工具，由google 团队完成
 本工程来源于caja的3000版本号, 并在此基础上进行了一些改造,以更加适合阿里来使用.
 
 #### 为什么使用的是caja 3000版本号?
@@ -23,13 +23,13 @@ JDK1.7+
 
 ## 如何使用?
 ```javascript
-    git clone git@github.com:lorrylockie/caja.git caja
-    cd caja
-    ant jars
-    ant runserver
-    //windows
-    build.bat jars
-    build.bat runserver
+git clone git@github.com:lorrylockie/caja.git caja
+cd caja
+ant jars
+ant runserver
+//windows
+build.bat jars
+build.bat runserver
 ```
 
 ## 阅读相关资料
