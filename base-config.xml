@@ -8,6 +8,7 @@
 
     <!--== inputs ==-->
     <property name="src" location="src"/>
+    <property name="src.caja"    location="${src}/com/google/caja"/>
     <property name="tests" location="tests"/>
     <property name="test.filter" value="*Test"/>
     <property name="third_party" location="third_party"/>

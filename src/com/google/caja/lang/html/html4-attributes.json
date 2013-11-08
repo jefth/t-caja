@@ -7,7 +7,7 @@
 
   "types": [
       { "key": "A::HREF",
-        "mimeTypes": "*/*", "optional": true, "type": "URI", 
+        "mimeTypes": "*/*", "optional": true, "type": "URI",
         "uriEffect": "NEW_DOCUMENT", "loaderType": "UNSANDBOXED",
         "safeValue": "#",
         "reason": [
@@ -59,8 +59,8 @@
       },
       {
         "key": "INPUT::TYPE",
-        "description": "what kind of widget is needed -- disallows FILE and PASSWORD",
-        "values": "text,checkbox,radio,submit,reset,hidden,image,button",
+        "description": "what kind of widget is needed",
+        "values": "text,checkbox,radio,submit,reset,hidden,image,button,file,password",
         "optional": true, "default": "TEXT"
       }
       ]
