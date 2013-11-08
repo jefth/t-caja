@@ -72,7 +72,7 @@ var ___, cajaVM, safeJSON;
     // Blacklist built from:
     // http://www.thespanner.co.uk/2009/07/14/hidden-firefox-properties-revisited/
     // [args, actuals length, callee, formals length, func name, caller]
-    // firefox ÓĞĞ©ÄÚ²¿±äÁ¿ÔÚjsÔ­ĞÍÉÏÃæ, caja ÕâÀïÒª°ÑÕâĞ©"²»ÎªÈËÖª"µÄÄÚ²¿±äÁ¿ ¼Óµ½ºÚÃûµ¥ÖĞ¡£¾ßÌå¿ÉÒÔ²é¿´ÉÏÃæÁ´½Ó comment by shiba
+    // firefox ï¿½ï¿½Ğ©ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jsÔ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, caja ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ğ©"ï¿½ï¿½Îªï¿½ï¿½Öª"ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ comment by shiba
     deodorize(Function.prototype, -6);
 
     // [string length]
@@ -3827,8 +3827,8 @@ var ___, cajaVM, safeJSON;
 
     // TODO: Where this is used, do we really want frozenness
     // that is transitive across property traversals?
-    function snowWhite(obj) {
-        return freeze(whitelistAll(obj));
+    function snowWhite(obj, flag) {
+        return freeze(whitelistAll(obj, flag));
     }
 
     Object.freeze = freeze;

@@ -645,24 +645,87 @@
         </transform>
     </target>
 
-    <!-- TODO(jasvir): This is not needed any longer -->
-    <target name="IframeSupportingJs" depends="MinifiedJs">
-        <genrule class="com.google.caja.tools.JsToVar">
-            <input file="${lib}/com/google/caja/plugin/es53-taming-frame.js"/>
-            <output file="${lib}/com/google/caja/plugin/tamingFrameScript.js"/>
-        </genrule>
-        <genrule class="com.google.caja.tools.JsToVar">
-            <input file="${lib}/com/google/caja/plugin/es53-guest-frame.js"/>
-            <output file="${lib}/com/google/caja/plugin/guestFrameScript.js"/>
-        </genrule>
-        <concat destfile="${lib}/com/google/caja/plugin/es53-single-frame-vars.js">
+    <target name="MinifiedJsMobile" depends="pluginc">
+        <transform>
+            <output file="${lib}/com/google/caja/plugin/html-sanitizer-minified.js"
+                    language="javascript" renderer="minify"/>
+            <output file="${lib}/com/google/caja/plugin/html-sanitizer-bundle.js"
+                    language="javascript" renderer="concat"/>
+            <input file="${lib}/com/google/caja/plugin/html4-defs.js"/>
+            <input file="${src}/com/google/caja/plugin/html-sanitizer.js"/>
+        </transform>
+        <transform>
+            <output file="${lib}/com/google/caja/plugin/caja-mobile-min.js"
+                    language="javascript" renderer="minify"/>
+            <input file="${src}/com/google/caja/plugin/caja-mobile.js"/>
+        </transform>
+        <transform>
+            <output file="${lib}/com/google/caja/plugin/es53-taming-frame-mobile-min.js"
+                    language="javascript" renderer="minify"/>
+            <output file="${lib}/com/google/caja/plugin/es53-taming-frame-mobile.js"
+                    language="javascript" renderer="concat"/>
+            <!--<input file="${src}/com/google/caja/enhance-error.js"/>-->
+            <input file="${third_party}/js/json_sans_eval/json_sans_eval.js"/>
+            <input file="${src}/com/google/caja/es53.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/unicode.js"/>-->
+            <input file="${lib}/com/google/caja/plugin/css-defs.js"/>
+            <input file="${lib}/com/google/caja/plugin/html4-defs.js"/>
+            <input file="${src}/com/google/caja/plugin/html-sanitizer.js"/>
+            <input file="${src}/com/google/caja/plugin/html-emitter.js"/>
+            <input file="${src}/com/google/caja/plugin/bridal.js"/>
+            <input file="${src}/com/google/caja/plugin/cssparser.js"/>
+            <input file="${src}/com/google/caja/plugin/domita-mobile.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/uri.js"/>-->
+            <!--<input file="${src}/com/google/caja/cajita-promise.js"/>-->
+            <!--<input file="${src}/com/google/caja/plugin/json-rest-transport.js"/>-->
+            <!--<input file="${src}/com/google/caja/plugin/cajoling-service-client.js"/>-->
+            <input file="${src}/com/google/caja/plugin/taming-frame.js"/>
+            <input file="${src}/com/google/caja/plugin/caja-iframe-done.js"/>
+        </transform>
+        <transform>
+            <output file="${lib}/com/google/caja/plugin/es53-guest-frame-mobile-min.js"
+                    language="javascript" renderer="minify"/>
+            <output file="${lib}/com/google/caja/plugin/es53-guest-mobile-frame.js"
+                    language="javascript" renderer="concat"/>
+            <input file="${src}/com/google/caja/enhance-error.js"/>
+            <input file="${third_party}/js/json_sans_eval/json_sans_eval.js"/>
+            <input file="${src}/com/google/caja/es53.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/uri.js"/>-->
+            <!-- <input file="${src}/com/google/caja/cajita-promise.js"/>-->
+            <input file="${src}/com/google/caja/plugin/prepare-modules.js"/>
+            <!--<input file="${src}/com/google/caja/plugin/load-module.js"/>-->
+            <input file="${src}/com/google/caja/plugin/caja-iframe-done.js"/>
+        </transform>
+        <transform>
+            <output file="${lib}/com/google/caja/plugin/module-promise-minified.js"
+                    language="javascript" renderer="minify"/>
+            <input file="${src}/com/google/caja/plugin/uri.js"/>
+            <input file="${src}/com/google/caja/cajita-module-orig.js"/>
+            <input file="${src}/com/google/caja/cajita-promise.js"/>
+        </transform>
+        <concat destfile="${lib}/com/google/caja/ses/initSES.js">
+            <!-- Makes initSES.js -->
             <filelist>
-                <file name="${lib}/com/google/caja/plugin/tamingFrameScript.js"/>
-                <file name="${lib}/com/google/caja/plugin/guestFrameScript.js"/>
+                <file name="${src}/com/google/caja/ses/repairES5.js"/>
+                <file name="${src}/com/google/caja/ses/WeakMap.js"/>
+                <file name="${src}/com/google/caja/ses/whitelist.js"/>
+                <file name="${src}/com/google/caja/ses/atLeastFreeVarNames.js"/>
+                <file name="${src}/com/google/caja/ses/startSES.js"/>
+                <file name="${src}/com/google/caja/ses/hookupSES.js"/>
             </filelist>
         </concat>
+        <transform>
+            <!-- Makes initSES-minified.js -->
+            <output file="${lib}/com/google/caja/ses/initSES-minified.js"
+                    language="javascript" renderer="minify"/>
+            <input file="${src}/com/google/caja/ses/repairES5.js"/>
+            <input file="${src}/com/google/caja/ses/WeakMap.js"/>
+            <input file="${src}/com/google/caja/ses/whitelist.js"/>
+            <input file="${src}/com/google/caja/ses/atLeastFreeVarNames.js"/>
+            <input file="${src}/com/google/caja/ses/startSES.js"/>
+            <input file="${src}/com/google/caja/ses/hookupSES.js"/>
+        </transform>
     </target>
-
     <target name="AllTests"
             depends="dirs,tools,MinifiedJs,playground,CajoledTests">
         <!-- TODO(kpreid): that this copies to ${lib} means the contents of
@@ -775,6 +838,7 @@
                 <include name="**/caja/plugin/cssparser.js"/>
                 <include name="**/caja/plugin/domita.js"/>
                 <include name="**/caja/plugin/caja.js"/>
+                <include name="**/caja/plugin/caja-mobile.js"/>
                 <include name="**/caja/plugin/host-tools.js"/>
                 <include name="**/caja/plugin/html-emitter.js"/>
                 <include name="**/caja/plugin/html-sanitizer.js"/>

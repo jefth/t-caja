@@ -1,11 +1,10 @@
 {
   "allowed": [
-    "EMBED"
+    "EMBED",
+    "CANVAS"
   ],
    "denied": [
         { "key": "NOBR",
-            "reason": "tb shop not allowed" },
-        { "key": "CANVAS",
             "reason": "tb shop not allowed" }
     ]
 }
