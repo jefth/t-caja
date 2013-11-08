@@ -62,7 +62,7 @@ if (!domitaModules) {
     domitaModules = {};
 }
 
-domitaModules.classUtils = function() {
+domitaModules.classUtils = function () {
     function getterSetterSuffix(name) {
         return String.fromCharCode(name.charCodeAt(0) & ~32)
             + name.substring(1) + '___';
@@ -193,7 +193,7 @@ domitaModules.XMLHttpRequestCtor = function (XMLHttpRequest, ActiveXObject) {
     }
 };
 
-domitaModules.TameXMLHttpRequest = function(xmlHttpRequestMaker, uriCallback) {
+domitaModules.TameXMLHttpRequest = function (xmlHttpRequestMaker, uriCallback) {
     var classUtils = domitaModules.classUtils();
 
     // See http://www.w3.org/TR/XMLHttpRequest/
@@ -289,7 +289,7 @@ domitaModules.TameXMLHttpRequest = function(xmlHttpRequestMaker, uriCallback) {
         // TODO(ihab.awad): Do we need more attributes of the event than 'target'?
         // May need to implement full "tame event" wrapper similar to DOM events.
         var self = this;
-        this.xhr___.onreadystatechange = function(event) {
+        this.xhr___.onreadystatechange = function (event) {
             var evt = {};
             evt.DefineOwnProperty___('target', {
                 value: self,
@@ -346,7 +346,7 @@ domitaModules.TameXMLHttpRequest = function(xmlHttpRequestMaker, uriCallback) {
     TameXMLHttpRequest.prototype.setRequestHeader = function (label, value) {
         this.xhr___.setRequestHeader(String(label), String(value));
     };
-    TameXMLHttpRequest.prototype.send = function(opt_data) {
+    TameXMLHttpRequest.prototype.send = function (opt_data) {
         if (arguments.length === 0) {
             // TODO(ihab.awad): send()-ing an empty string because send() with no
             // args does not work on FF3, others?
@@ -414,7 +414,7 @@ domitaModules.TameXMLHttpRequest = function(xmlHttpRequestMaker, uriCallback) {
 };
 
 domitaModules.CssPropertiesCollection =
-    function(cssPropertyNameCollection, anElement, css) {
+    function (cssPropertyNameCollection, anElement, css) {
         var canonicalStylePropertyNames = {};
         // Maps style property names, e.g. cssFloat, to property names, e.g. float.
         var cssPropertyNames = {};
@@ -453,7 +453,7 @@ domitaModules.CssPropertiesCollection =
             getCanonicalPropFromCss: function (p) {
                 return canonicalStylePropertyNames[p];
             },
-            getCssPropFromCanonical: function(p) {
+            getCssPropFromCanonical: function (p) {
                 return cssPropertyNames[p];
             }
         };
@@ -950,7 +950,7 @@ var attachDocumentStub = (function () {
                     html4.ATTRIBS.hasOwnProperty(attribKey))) {
                     atype = html4.ATTRIBS[attribKey];
                     value = rewriteAttribute(tagName, attribName, atype, value);
-                } else if( attribName.indexOf('data-') === 0){
+                } else if (attribName.indexOf('data-') === 0) {
 
                 }
                 else {
@@ -1005,7 +1005,7 @@ var attachDocumentStub = (function () {
                     return unsuffix(realValue, idSuffix, null);
                 case html4.atype.IDREFS:
                     return realValue.replace(ID_LIST_PARTS_PATTERN,
-                        function(_, id, spaces) {
+                        function (_, id, spaces) {
                             return unsuffix(id, idSuffix, '') + (spaces ? ' ' : '');
                         });
                 case html4.atype.URI_FRAGMENT:
@@ -1098,7 +1098,7 @@ var attachDocumentStub = (function () {
                     value = String(value);
                     if (value && isValidIdList(value)) {
                         return value.replace(ID_LIST_PARTS_PATTERN,
-                            function(_, id, spaces) {
+                            function (_, id, spaces) {
                                 return id + idSuffix + (spaces ? ' ' : '');
                             });
                     }
@@ -1388,7 +1388,7 @@ var attachDocumentStub = (function () {
          * @return an array that duck types to a node list.
          */
         function fakeNodeList(array) {
-            var f = function(i) {
+            var f = function (i) {
                 return array[i];
             };
             array.item = ___.markFuncFreeze(f);
@@ -1438,7 +1438,7 @@ var attachDocumentStub = (function () {
                     }
                 }));
 
-            tamed.namedItem = ___.markFuncFreeze(function(name) {
+            tamed.namedItem = ___.markFuncFreeze(function (name) {
                 name = String(name);
                 if (name.charAt(name.length - 1) === '_') {
                     return null;
@@ -1847,7 +1847,7 @@ var attachDocumentStub = (function () {
         };
         TameBackedNode.prototype.getAttributes___ = function () {
             var thisNode = this.node___;
-            var tameNodeCtor = function(node, editable) {
+            var tameNodeCtor = function (node, editable) {
                 return new TameBackedAttributeNode(node, editable, thisNode);
             };
             return tameNodeList(
@@ -1969,8 +1969,7 @@ var attachDocumentStub = (function () {
                 return this.node___.contains(otherNode);
             };
         }
-        if ('function' ===
-            typeof document.documentElement.compareDocumentPosition) {
+        if ('function' === typeof document.documentElement.compareDocumentPosition) {
             /**
              * Speced in <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-compareDocumentPosition">DOM-Level-3</a>.
              */
@@ -2858,7 +2857,7 @@ var attachDocumentStub = (function () {
         defProperty(TameAElement, 'href', false, identity, true, identity);
 
         // http://dev.w3.org/html5/spec/Overview.html#the-canvas-element
-        var TameCanvasElement = (function() {
+        var TameCanvasElement = (function () {
             function isFont(value) {
                 return typeof(value) == "string" && css.properties.font.test(value);
             }
@@ -2876,22 +2875,22 @@ var attachDocumentStub = (function () {
                 // http://dev.w3.org/csswg/css3-color/#html4 as cited by
                 // http://dev.w3.org/html5/2dcontext/#dom-context-2d-fillstyle
                 // TODO(kpreid): avoid duplication with table in CssRewriter.java
-                " black":   "#000000",
-                " silver":  "#c0c0c0",
-                " gray":    "#808080",
-                " white":   "#ffffff",
-                " maroon":  "#800000",
-                " red":     "#ff0000",
-                " purple":  "#800080",
+                " black": "#000000",
+                " silver": "#c0c0c0",
+                " gray": "#808080",
+                " white": "#ffffff",
+                " maroon": "#800000",
+                " red": "#ff0000",
+                " purple": "#800080",
                 " fuchsia": "#ff00ff",
-                " green":   "#008000",
-                " lime":    "#00ff00",
-                " olive":   "#808000",
-                " yellow":  "#ffff00",
-                " navy":    "#000080",
-                " blue":    "#0000ff",
-                " teal":    "#008080",
-                " aqua":    "#00ffff"
+                " green": "#008000",
+                " lime": "#00ff00",
+                " olive": "#808000",
+                " yellow": "#ffff00",
+                " navy": "#000080",
+                " blue": "#0000ff",
+                " teal": "#008080",
+                " aqua": "#00ffff"
             };
 
             function StringTest(strings) {
@@ -2946,6 +2945,7 @@ var attachDocumentStub = (function () {
                                     toString: ___.markFuncFreeze(function () {
                                         return "[Domita CanvasPixelArray]";
                                     }),
+                                    length: length,
                                     canvas_writeback___: function () {
                                         // This is invoked just before each putImageData
                                         for (var i = length - 1; i >= 0; i--) {
@@ -3159,8 +3159,8 @@ var attachDocumentStub = (function () {
                     }),
 
 
-                    clearRect:  tameRectMethod(context.clearRect, false),
-                    fillRect:   tameRectMethod(context.fillRect, false),
+                    clearRect: tameRectMethod(context.clearRect, false),
+                    fillRect: tameRectMethod(context.fillRect, false),
                     strokeRect: tameRectMethod(context.strokeRect, false),
 
                     beginPath: tameSimpleOp(context.beginPath),
@@ -3637,14 +3637,14 @@ var attachDocumentStub = (function () {
                 this.node___.align = alignment;
             }
         };
-        TameIFrameElement.prototype.getAttribute = function(attr) {
+        TameIFrameElement.prototype.getAttribute = function (attr) {
             var attrLc = String(attr).toLowerCase();
             if (attrLc !== 'name' && attrLc !== 'src') {
                 return TameElement.prototype.getAttribute.call(this, attr);
             }
             return null;
         };
-        TameIFrameElement.prototype.setAttribute = function(attr, value) {
+        TameIFrameElement.prototype.setAttribute = function (attr, value) {
             var attrLc = String(attr).toLowerCase();
             // The 'name' and 'src' attributes are whitelisted for all tags in
             // html4-attributes-whitelist.json, since they're needed on tags
@@ -4407,7 +4407,7 @@ var attachDocumentStub = (function () {
         imports.handlers___ = [];
         imports.TameHTMLDocument___ = TameHTMLDocument;  // Exposed for testing
         imports.tameNode___ = defaultTameNode;
-        imports.feralNode___ = ___.markFuncFreeze(function(tameNode) {
+        imports.feralNode___ = ___.markFuncFreeze(function (tameNode) {
             tameNode = TameNodeT.coerce(tameNode);
             return tameNode.node___;
         });
@@ -4455,13 +4455,13 @@ var attachDocumentStub = (function () {
             }
             return out.join(' ');
         };
-        imports.rewriteUriInCss___ = function(value) {
+        imports.rewriteUriInCss___ = function (value) {
             return value
                 ? uriCallback.rewrite(value, html4.ueffects.SAME_DOCUMENT,
                 html4.ltypes.SANDBOXED, {})
                 : void 0;
         };
-        imports.rewriteUriInAttribute___ = function(value, tagName, attribName) {
+        imports.rewriteUriInAttribute___ = function (value, tagName, attribName) {
             return value
                 ? uriCallback.rewrite(value, getUriEffect(tagName, attribName),
                 getLoaderType(tagName, attribName), {"XML_ATTR": attribName})
@@ -4483,10 +4483,10 @@ var attachDocumentStub = (function () {
         }
 
         inertCtor(TameStyle, Object, 'Style');
-        TameStyle.prototype.readByCanonicalName___ = function(canonName) {
+        TameStyle.prototype.readByCanonicalName___ = function (canonName) {
             return String(this.style___[canonName] || '');
         };
-        TameStyle.prototype.writeByCanonicalName___ = function(canonName, val) {
+        TameStyle.prototype.writeByCanonicalName___ = function (canonName, val) {
             this.style___[canonName] = val;
         };
         TameStyle.prototype.allowProperty___ = function (cssPropertyName) {
@@ -4495,7 +4495,7 @@ var attachDocumentStub = (function () {
         TameStyle.prototype.handleRead___ = function (stylePropertyName) {
             var self = this;
             if (String(stylePropertyName) === 'getPropertyValue') {
-                return ___.markFuncFreeze(function(args) {
+                return ___.markFuncFreeze(function (args) {
                     return TameStyle.prototype.getPropertyValue.call(self, args);
                 });
             }
@@ -4511,7 +4511,7 @@ var attachDocumentStub = (function () {
             var canonName = allCssProperties.getCanonicalPropFromCss(cssPropertyName);
             return this.readByCanonicalName___(canonName);
         };
-        TameStyle.prototype.handleCall___ = function(name, args) {
+        TameStyle.prototype.handleCall___ = function (name, args) {
             if (String(name) === 'getPropertyValue') {
                 return TameStyle.prototype.getPropertyValue.call(this, args);
             }
@@ -4586,7 +4586,7 @@ var attachDocumentStub = (function () {
             return value;
         };
         //add by shiba, here support a check css attr and value method
-        imports.checkCss___ = function(el, stylePropertyName, value){
+        imports.checkCss___ = function (el, stylePropertyName, value) {
             if (!imports.tameNode___(el, true).editable___) {
                 return ('style not editable');
             }
@@ -4598,7 +4598,7 @@ var attachDocumentStub = (function () {
             var cssPropertyName =
                 allCssProperties.getCssPropFromCanonical(stylePropertyName);
             if (!allCssProperties.isCssProp(cssPropertyName)) {
-                return ('not allowProperty '+cssPropertyName);
+                return ('not allowProperty ' + cssPropertyName);
             }
             var pattern = css.properties[cssPropertyName];
             if (!pattern) {
@@ -4660,7 +4660,7 @@ var attachDocumentStub = (function () {
         }
 
         ___.extend(TameComputedStyle, TameStyle);
-        TameComputedStyle.prototype.readByCanonicalName___ = function(canonName) {
+        TameComputedStyle.prototype.readByCanonicalName___ = function (canonName) {
             var canReturnDirectValue =
                 historyInsensitiveCssProperties.isCanonicalProp(canonName)
                     || !isNestedInAnchor(this.rawElement___);
@@ -4671,7 +4671,7 @@ var attachDocumentStub = (function () {
                     .readByCanonicalName___(canonName);
             }
         };
-        TameComputedStyle.prototype.writeByCanonicalName___ = function(canonName) {
+        TameComputedStyle.prototype.writeByCanonicalName___ = function (canonName) {
             throw 'Computed styles not editable: This code should be unreachable';
         };
         TameComputedStyle.prototype.toString = ___.markFuncFreeze(function () {
@@ -4811,14 +4811,14 @@ var attachDocumentStub = (function () {
             toString: ___.markFuncFreeze(function () {
                 return tameLocation.href();
             }),
-            href:  ___.markFuncFreeze(function (url) {
+            href: ___.markFuncFreeze(function (url) {
                 if (!url) {
                     return optPseudoWindowLocation.href;
-                }else{
+                } else {
                     url = uriCallback.rewrite(url, null, null, {XML_ATTR: "href"});
-                    if(url){
+                    if (url) {
                         optPseudoWindowLocation.href = url;
-                    }else{
+                    } else {
                         throw new Error("url is not in whitelist, can't location!");
                     }
                 }
@@ -4901,7 +4901,7 @@ var attachDocumentStub = (function () {
 
 
         var tameConsole = ___.primFreeze({
-            log:___.markFuncFreeze(function() {
+            log: ___.markFuncFreeze(function () {
                 var c;
                 if (c = window.console) {
                     c.log.apply(c, arguments);
@@ -4912,7 +4912,7 @@ var attachDocumentStub = (function () {
 
         ___.forOwnKeys({
             document: tameDocument,
-            console:tameConsole,
+            console: tameConsole,
             location: tameLocation,
             navigator: tameNavigator,
             setTimeout: tameSetTimeout,
@@ -5209,7 +5209,7 @@ var attachDocumentStub = (function () {
 
         // Iterate over all node classes, assigning them to the Window object
         // under their DOM Level 2 standard name.
-        ___.forOwnKeys(nodeClasses, ___.markFuncFreeze(function(name, ctor) {
+        ___.forOwnKeys(nodeClasses, ___.markFuncFreeze(function (name, ctor) {
             ___.primFreeze(ctor);
             if (Object.prototype.DefineOwnProperty___) {
                 tameWindow.DefineOwnProperty___(name, {
@@ -5297,7 +5297,7 @@ var attachDocumentStub = (function () {
         var outers = imports.outers;
         if (___.isJSONContainer(outers)) {
             // For Valija, use the window object as outers.
-            ___.forOwnKeys(outers, ___.markFuncFreeze(function(k, v) {
+            ___.forOwnKeys(outers, ___.markFuncFreeze(function (k, v) {
                 if (!(k in tameWindow)) {
                     // No need to check for DefineOwnProperty___; this case
                     // occurs iff we are in Valija, not ES53.

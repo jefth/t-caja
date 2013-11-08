@@ -1,8 +1,7 @@
 {
   "description": [
       "See http://code.google.com/p/google-caja/wiki/CajaWhitelists",
-      "The denied is not necessary but lets us document why they're denied.",
-      "tb shop not allowed"
+      "The denied is not necessary but lets us document why they're denied."
       ],
 
   "allowed": [
@@ -20,11 +19,13 @@
       "CAPTION",
       "CENTER",
       "CITE",
+      "CODE",
       "COL",
       "COLGROUP",
       "DD",
       "DEL",
       "DFN",
+      "DIR",
       "DIV",
       "DL",
       "DT",
@@ -40,6 +41,7 @@
       "H6",
       "HR",
       "I",
+      "IFRAME",
       "IMG",
       "INPUT",
       "INS",
@@ -48,6 +50,7 @@
       "LEGEND",
       "LI",
       "MAP",
+      "MENU",
       "OL",
       "OPTGROUP",
       "OPTION",
@@ -55,6 +58,7 @@
       "PRE",
       "Q",
       "S",
+      "SAMP",
       "SELECT",
       "SMALL",
       "SPAN",
@@ -85,7 +89,7 @@
       { "key": "BASEFONT",
         "reason": "affects global state" },
       { "key": "BODY",
-        "reason": "attributes would be folded into body" },
+        "reason": "a global level tag" },
       { "key": "FRAME",
         "reason": "can be used to cause javascript execution" },
       { "key": "FRAMESET",
@@ -113,17 +117,6 @@
       { "key": "STYLE",
         "reason": "allows global definition of styles." },
       { "key": "TITLE",
-        "reason": "a global level tag" },
-      { "key": "CODE",
-          "reason": "tb shop not allowed" },
-      { "key": "DIR",
-          "reason": "tb shop not allowed" },
-      { "key": "IFRAME",
-          "reason": "tb shop not allowed" },
-      { "key": "MENU",
-          "reason": "tb shop not allowed" },
-      { "key": "SAMP",
-          "reason": "tb shop not allowed" }
-
+        "reason": "a global level tag" }
       ]
 }
